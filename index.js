@@ -19,6 +19,7 @@ async function run() {
 
         await client.connect()
         const partCollection = client.db('ManufacturersOfCarPart').collection('parts')
+        const userCollection = client.db('ManufacturersOfCarPart').collection('users')
 
 
         // get all parts api
@@ -35,7 +36,7 @@ async function run() {
             res.send(part)
         })
         //user put api
-        app.put('/user/:email', verifyJWT, async (req, res) => {
+        app.put('/user/:email', async (req, res) => {
 
             const email = req.params.email;
             const user = req.body;
