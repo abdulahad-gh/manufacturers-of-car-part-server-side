@@ -57,6 +57,7 @@ async function run() {
             const part = await partCollection.findOne(filter);
             res.send(part)
         })
+
         //user put api
         app.put('/user/:email', async (req, res) => {
 
@@ -73,6 +74,7 @@ async function run() {
 
         })
 
+        //post api for save order
         app.post('/order', async (req, res) => {
             const orderInfo = req.body;
             const { partName, email, phone } = orderInfo;
@@ -84,7 +86,21 @@ async function run() {
             return res.send({ success: true, result });
         })
 
+        //get api for find all order
+        app.get('/orders', verifyJwt, async (req, res) => {
+            const userEmail = req.query.email;
 
+            const decodedEmail = req.decoded.email;
+            console.log(decodedEmail, userEmail)
+            if (userEmail === decodedEmail) {
+                const query = { email: userEmail };
+                const orders = await orderCollection.find(query).toArray();
+                return res.send(orders);
+            }
+            else {
+                return res.status(403).send({ message: 'forbidden access' });
+            }
+        })
 
     }
     finally {
