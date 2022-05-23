@@ -34,6 +34,20 @@ async function run() {
             const part = await partCollection.findOne(filter);
             res.send(part)
         })
+        //user put api
+        app.put('/user/:email', verifyJWT, async (req, res) => {
+
+            const email = req.params.email;
+            const user = req.body;
+            const filter = { email: email };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: user
+            }
+            const result = await userCollection.updateOne(filter, updateDoc, options)
+            res.send(result)
+
+        })
 
 
 
