@@ -41,6 +41,7 @@ async function run() {
         await client.connect()
         const partCollection = client.db('ManufacturersOfCarPart').collection('parts')
         const userCollection = client.db('ManufacturersOfCarPart').collection('users')
+        const orderCollection = client.db('ManufacturersOfCarPart').collection('orders')
 
 
         // get all parts api
@@ -70,6 +71,17 @@ async function run() {
             const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '7d' })
             res.send({ result, token })
 
+        })
+
+        app.post('/order', async (req, res) => {
+            const orderInfo = req.body;
+            const { partName, email, phone } = orderInfo;
+            const exists = await orderCollection.findOne({ partName, email, phone });
+            if (exists) {
+                return res.send({ success: false, order: exists })
+            }
+            const result = await orderCollection.insertOne(orderInfo);
+            return res.send({ success: true, result });
         })
 
 
