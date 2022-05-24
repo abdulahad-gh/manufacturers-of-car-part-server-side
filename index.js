@@ -185,6 +185,48 @@ async function run() {
 
         })
 
+        const verifyAdmin = async (req, res, next) => {
+            const email = req.decoded.email;
+            const requester = await userCollection.findOne({ email: email })
+            if (requester.admin) {
+                next()
+            }
+            else {
+                res.status(403).send({ message: 'forbidden' })
+            }
+        }
+        app.get('/admin/:email', async (req, res) => {
+            const email = req.params.email;
+            const userObject = await userCollection.findOne({ email: email });
+            if (userObject.admin) {
+                res.send({ admin: true })
+            }
+            else {
+                res.send({ admin: false })
+            }
+
+        })
+
+        //get all users
+        app.get('/users', verifyJwt, async (req, res) => {
+            const result = await userCollection.find().toArray();
+            res.send(result)
+        })
+
+        //put api for update Admin status
+        app.put('/user/admin/:email', verifyJwt, verifyAdmin, async (req, res) => {
+            const email = req.params.email;
+            const filter = { email: email };
+            const updateDoc = {
+                $set: { admin: true }
+            }
+
+            const result = await userCollection.updateOne(filter, updateDoc)
+            res.send(result)
+
+
+        })
+
 
     }
     finally {
