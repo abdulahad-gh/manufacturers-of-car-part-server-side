@@ -164,6 +164,12 @@ async function run() {
             res.send(result)
         })
 
+        //create get api for all review
+        app.get('/reviews', verifyJwt, async (req, res) => {
+            const result = await reviewCollection.find().toArray();
+            res.send(result)
+        })
+
 
 
     }
