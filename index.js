@@ -3,6 +3,9 @@ const cors = require('cors');
 var jwt = require('jsonwebtoken');
 require('dotenv').config();
 
+const stripe = require('stripe')('sk_test_51L19j3JpfOx2cnrFx4oLeFW8e4Db4zwCING9yF5NgLibHQDrVniisKpacG5Q97ub71g0HwS69i4kHMT1s3fAMDCc00ZLhcBjxu');
+
+
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -42,6 +45,7 @@ async function run() {
         const partCollection = client.db('ManufacturersOfCarPart').collection('parts')
         const userCollection = client.db('ManufacturersOfCarPart').collection('users')
         const orderCollection = client.db('ManufacturersOfCarPart').collection('orders')
+        const paymentCollection = client.db('ManufacturersOfCarPart').collection('payments')
 
 
         // get all parts api
@@ -91,7 +95,6 @@ async function run() {
             const userEmail = req.query.email;
 
             const decodedEmail = req.decoded.email;
-            console.log(decodedEmail, userEmail)
             if (userEmail === decodedEmail) {
                 const query = { email: userEmail };
                 const orders = await orderCollection.find(query).toArray();
@@ -101,6 +104,50 @@ async function run() {
                 return res.status(403).send({ message: 'forbidden access' });
             }
         })
+
+        app.post('/create-payment-intent', verifyJwt, async (req, res) => {
+            const order = req.body;
+
+            const price = order.price;
+            const amount = price * 100;
+            const paymentIntent = await stripe?.paymentIntents?.create({
+                amount: amount,
+                currency: 'usd',
+                payment_method_types: ['card']
+            });
+            console.log(paymentIntent);
+            res.send({ clientSecret: paymentIntent?.client_secret })
+        });
+
+        app.patch('/order/:id', verifyJwt, async (req, res) => {
+            const id = req.params.id;
+            const payment = req.body;
+            const filter = { _id: ObjectId(id) };
+            const updatedDoc = {
+                $set: {
+                    paid: true,
+                    transactionId: payment.transactionId
+                }
+            }
+
+            const result = await paymentCollection.insertOne(payment);
+            const updatedBooking = await orderCollection.updateOne(filter, updatedDoc);
+            res.send(updatedBooking);
+        })
+
+
+
+
+        //get api for single order of part
+        app.get('/order/:orderId', verifyJwt, async (req, res) => {
+            const orderId = req.params.orderId;
+            console.log(orderId);
+            const query = { _id: ObjectId(orderId) };
+            const order = await orderCollection.findOne(query);
+            res.send(order);
+        })
+
+
 
     }
     finally {
