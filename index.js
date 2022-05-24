@@ -46,6 +46,7 @@ async function run() {
         const userCollection = client.db('ManufacturersOfCarPart').collection('users')
         const orderCollection = client.db('ManufacturersOfCarPart').collection('orders')
         const paymentCollection = client.db('ManufacturersOfCarPart').collection('payments')
+        const reviewCollection = client.db('ManufacturersOfCarPart').collection('reviews')
 
 
         // get all parts api
@@ -153,6 +154,14 @@ async function run() {
             const result = await orderCollection.deleteOne({ _id: ObjectId(orderId) })
             res.send(result)
 
+        })
+
+
+        //create post api for save review
+        app.post('/review', verifyJwt, async (req, res) => {
+            const reviewContent = req.body;
+            const result = await reviewCollection.insertOne(reviewContent);
+            res.send(result)
         })
 
 
