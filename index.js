@@ -170,6 +170,20 @@ async function run() {
             res.send(result)
         })
 
+        //put api for save userProfileInfo
+        app.put('/update-user-info/:userEmail', async (req, res) => {
+
+            const email = req.params.userEmail;
+            const userInfo = req.body;
+            const filter = { email: email };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: userInfo
+            }
+            const result = await userCollection.updateOne(filter, updateDoc, options)
+            res.send(result)
+
+        })
 
 
     }
