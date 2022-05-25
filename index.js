@@ -227,6 +227,14 @@ async function run() {
 
         })
 
+        //post api for add product
+        app.post('/add-product', verifyJwt, verifyAdmin, async (req, res) => {
+            const product = req.body;
+            console.log(product);
+            const result = await partCollection.insertOne(product);
+            res.send(result);
+        });
+
 
     }
     finally {
