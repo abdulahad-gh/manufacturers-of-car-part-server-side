@@ -177,7 +177,6 @@ async function run() {
                 currency: 'usd',
                 payment_method_types: ['card']
             });
-            console.log(paymentIntent);
             res.send({ clientSecret: paymentIntent?.client_secret })
         });
 
@@ -203,7 +202,6 @@ async function run() {
         //get api for single order of part
         app.get('/order/:orderId', verifyJwt, async (req, res) => {
             const orderId = req.params.orderId;
-            console.log(orderId);
             const query = { _id: ObjectId(orderId) };
             const order = await orderCollection.findOne(query);
             res.send(order);
@@ -291,7 +289,6 @@ async function run() {
         //post api for add product
         app.post('/add-product', verifyJwt, verifyAdmin, async (req, res) => {
             const product = req.body;
-            console.log(product);
             const result = await partCollection.insertOne(product);
             res.send(result);
         });
@@ -340,8 +337,8 @@ run().catch(console.dir)
 
 
 app.get('/', (req, res) => {
-    res.send('server ok')
+    res.send('manufacturers server ok')
 })
 app.listen(port, () => {
-    console.log("server running at", port);
+    console.log("manufacturers server running at", port);
 })
