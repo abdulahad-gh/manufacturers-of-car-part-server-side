@@ -234,6 +234,13 @@ async function run() {
             const result = await partCollection.insertOne(product);
             res.send(result);
         });
+        //delete api for delete product
+        app.delete('/product/:id', verifyJwt, verifyAdmin, async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) }
+            const result = await partCollection.deleteOne(filter);
+            res.send(result)
+        });
 
         //get api for all orders
         app.get('/all-orders', verifyJwt, verifyAdmin, async (req, res) => {
