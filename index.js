@@ -1,9 +1,12 @@
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require('express');
 const cors = require('cors');
 var jwt = require('jsonwebtoken');
 require('dotenv').config();
-
 const stripe = require('stripe')('sk_test_51L19j3JpfOx2cnrFx4oLeFW8e4Db4zwCING9yF5NgLibHQDrVniisKpacG5Q97ub71g0HwS69i4kHMT1s3fAMDCc00ZLhcBjxu');
+const nodemailer = require('nodemailer');
+
+
 
 
 const app = express();
@@ -14,7 +17,14 @@ app.use(express.json());
 
 
 
-const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.GMAIL,
+        pass: process.env.PASS
+    }
+})
+
 const uri = `mongodb+srv://${process.env.M_D_USER}:${process.env.M_D_PASS}@cluster0.hloku.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
@@ -47,6 +57,56 @@ async function run() {
         const orderCollection = client.db('ManufacturersOfCarPart').collection('orders')
         const paymentCollection = client.db('ManufacturersOfCarPart').collection('payments')
         const reviewCollection = client.db('ManufacturersOfCarPart').collection('reviews')
+
+        //send order email
+        const sendOrderEmail = orderInfo => {
+            const { partName, price, name, email: userEmail } = orderInfo
+
+            const mailOptions = {
+                from: 'testmailacc00@gmail.com',
+                to: userEmail,
+                subject: `Hello ${name}. your  ${partName} order reqest is Successfull`,
+                text: `
+                Your order is store in our database. please pay $${price} to confirm order.
+
+                Thank you ${name}.
+                `,
+
+            }
+
+            transporter.sendMail(mailOptions, (err, data) => {
+                if (err) {
+                    console.log('error not sent', err);
+                } else {
+                    console.log('send order email mail')
+                }
+            })
+
+        }
+
+        //send payment email
+        const sendPaymentEmail = paymentInfo => {
+            const { partName, transactionId, name, email: userEmail } = paymentInfo
+            const mailOptions = {
+                from: 'testmailacc00@gmail.com',
+                to: userEmail,
+                subject: `Hello ${name}. your payment is successfull for  ${partName} order`,
+                text: `Your TransactionId: ${transactionId}
+
+                Thank you ${name}.
+                `,
+
+            }
+
+            transporter.sendMail(mailOptions, (err, data) => {
+                if (err) {
+                    console.log('error not sent', err);
+                } else {
+                    console.log('send payment mail')
+                }
+            })
+
+        }
 
 
         // get all parts api
@@ -87,6 +147,7 @@ async function run() {
             if (exists) {
                 return res.send({ success: false, order: exists })
             }
+            sendOrderEmail(orderInfo)
             const result = await orderCollection.insertOne(orderInfo);
             return res.send({ success: true, result });
         })
@@ -130,7 +191,7 @@ async function run() {
                     transactionId: payment.transactionId
                 }
             }
-
+            sendPaymentEmail(payment)
             const result = await paymentCollection.insertOne(payment);
             const updatedBooking = await orderCollection.updateOne(filter, updatedDoc);
             res.send(updatedBooking);
