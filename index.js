@@ -50,7 +50,7 @@ async function run() {
 
 
         // get all parts api
-        app.get('/parts', async (req, res) => {
+        app.get('/parts', verifyJwt, async (req, res) => {
             const parts = await partCollection.find().toArray();
             res.send(parts)
         })
@@ -234,6 +234,28 @@ async function run() {
             const result = await partCollection.insertOne(product);
             res.send(result);
         });
+
+        //get api for all orders
+        app.get('/all-orders', verifyJwt, verifyAdmin, async (req, res) => {
+            const result = await orderCollection.find().toArray();
+            res.send(result)
+        })
+
+        //put api for change pending status
+        app.put('/pending-status-change/:id', verifyJwt, verifyAdmin, async (req, res) => {
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    orderComplete: true
+                }
+            };
+            const result = await orderCollection.updateOne(filter, updatedDoc, options);
+            res.send(result)
+
+
+        })
 
 
     }
