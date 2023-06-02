@@ -10,7 +10,7 @@ const nodemailer = require('nodemailer');
 
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
@@ -337,8 +337,8 @@ run().catch(console.dir)
 
 
 app.get('/', (req, res) => {
-    res.send('manufacturers server ok')
+    res.send('manufacturers server ready')
 })
-app.listen(port, () => {
-    console.log("manufacturers server running at", port);
+app.listen(port,() => {
+    console.log("manufacturer", port);
 })
