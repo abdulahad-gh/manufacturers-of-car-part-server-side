@@ -6,11 +6,13 @@
 // const nodemailer = require('nodemailer');
 const express = require('express');
 const app = express();
+const cors = require('cors');
+require('dotenv').config()
 const partRouter = require('./routes/part.routes')
 
-app.use('/parts',partRouter)
 
-const cors = require('cors');
+//middleware
+app.use('/parts',partRouter)
 app.use(cors());
 app.use(express.json());
 
@@ -329,7 +331,9 @@ app.use(express.json());
 
 // }
 // run().catch(console.dir)
-
+app.get('/', (req, res) => {
+    res.send('manufacturers server ready'.yellow)
+})
 
 
 module.exports = app

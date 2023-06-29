@@ -44,4 +44,4 @@ const partSchema = mongoose.Schema({
 })
 
 const Part  = mongoose.model('Part',partSchema)
-exports.default = Part;
+module.exports = Part;
