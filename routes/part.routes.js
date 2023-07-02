@@ -1,9 +1,8 @@
-const express = require('express')
+const express = require('express');
+const { postPartController } = require('../controllers/part.controller');
 
 const routes = express.Router()
 
-routes.get('/',(req,res,next)=>{
-    res.send('part get route with mvc arch...')
-})
+routes.get('/',postPartController)
 
 module.exports = routes;

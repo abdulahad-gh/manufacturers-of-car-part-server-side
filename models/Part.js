@@ -9,8 +9,8 @@ const partSchema = mongoose.Schema({
         maxLength:100,
         unique:true,
         lowercase:true
-    },
-    description:String,
+    },  
+    desc:String,
     price:{
         type:Number,
         required:[true,"price must be an number"]
@@ -24,6 +24,8 @@ const partSchema = mongoose.Schema({
             message:"stock can't assign as {VALUE}"
         }
     },
+    availableQuan:Number,
+    minQuan:Number,
     brand:{
         type:String,
         required:[true,"please, provide a brand name"],
