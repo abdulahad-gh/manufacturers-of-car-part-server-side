@@ -3,46 +3,23 @@ const mongoose = require('mongoose')
 const partSchema = mongoose.Schema({
     name:{
         type:String,
-        required:[true,"name can't be empty"],
-        trim:true,
-        minLength:2,
-        maxLength:100,
-        unique:true,
-        lowercase:true
-    },  
-    desc:String,
-    price:{
-        type:Number,
-        required:[true,"price must be an number"]
+        required:[true,"name can't empty"],
+        unique:[true,'name must be unique']
     },
-    image:String,
+    desc:String,
+    price:Number,
+    img:String,
     stock:{
         type:String,
         required:[true,"stock can't be empty"],
-        enum:{
-            value:['in-stock','out-of-stock','discontinued'],
-            message:"stock can't assign as {VALUE}"
-        }
+        enum: ['in-stock','out-of-stock','discontinued'],
+        default:'in-stock'
     },
     availableQuan:Number,
     minQuan:Number,
-    brand:{
-        type:String,
-        required:[true,"please, provide a brand name"],
-        minLength:2,
-        maxLength:30,
-        lowercase:true,
-        trim:true,
-    },
-    createdAt:{
-        type:Date,
-        default:Date.now
-    },
-    updatedAt:{
-        type:Date,
-        default:Date.now
-    }
 
+},{
+    timestamps:true
 })
 
 const Part  = mongoose.model('Part',partSchema)

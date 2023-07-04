@@ -8,13 +8,15 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 require('dotenv').config()
-const partRouter = require('./routes/part.routes')
-
-
+const partRoutes = require('./routes/part.routes')
 //middleware
-app.use('/parts',partRouter)
 app.use(cors());
 app.use(express.json());
+
+//route
+app.use('/api/v1/parts',partRoutes)
+
+
 
 
 

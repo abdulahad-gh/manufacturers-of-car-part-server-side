@@ -1,8 +1,9 @@
 const express = require('express');
-const { postPartController } = require('../controllers/part.controller');
-
 const routes = express.Router()
+const postPartControllers =  require('../controllers/part.controller')
 
-routes.get('/',postPartController)
+
+routes.post('/add-part',postPartControllers.postPartController)
+// .get('/',postPartController)
 
 module.exports = routes;
