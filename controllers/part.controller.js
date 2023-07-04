@@ -1,11 +1,11 @@
-const { postPartService } = require("../services/part.services")
+const partServices = require("../services/part.services")
 
-//create part
+//createPartController
 module.exports.postPartController = async(req,res,next)=>{
 try {
        const data = req.body
        console.log(req.body)
-       const result = await postPartService(data)
+       const result = await partServices.postPartService(data)
        res.status(200).json({
 success:true,
 message:'successfully post a part.',
@@ -16,10 +16,22 @@ data:result
               success:false,
               message:error.message
        })
-}
-}
-//  export const  getAllPartController =  async(req,res,next)=>{
-//         const result = await 
-//         re
-        
-//  }
+}}
+ 
+//getAllPartController//
+module.exports.getAllPartController =  async(req,res,next)=>{
+try {
+       const data = await partServices.getAllPartService()
+       res.status(200).json({
+              success:true,
+              message:'successfully get all parts.',
+              data
+                     })
+       
+} catch (error) {
+       res.status(404).json({
+              success:false,
+              message:error.message
+       })
+}        
+ }
