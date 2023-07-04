@@ -4,7 +4,10 @@ const PartControllers =  require('../controllers/part.controller')
 
 
 routes.post('/add-part',PartControllers.postPartController)
-
 routes.get('/',PartControllers.getAllPartController)
+
+routes.route('/:id')
+.get(PartControllers.getOnePartController)
+
 
 module.exports = routes;

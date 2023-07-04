@@ -112,12 +112,6 @@ app.use('/api/v1/parts',partRoutes)
 //         // }
 
 
-//         // get all parts api
-//         // app.get('/parts', verifyJwt, async (req, res) => {
-//         //     const parts = await partCollection.find().toArray();
-//         //     res.send(parts)
-//         // })
-
 //         //get one part api
 //         // app.get('/part/:id', async (req, res) => {
 //         //     const id = req.params;

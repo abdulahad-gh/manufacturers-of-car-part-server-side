@@ -35,3 +35,21 @@ try {
        })
 }        
  }
+//getOnePartController//
+module.exports.getOnePartController =  async(req,res,next)=>{
+try {
+       const {id} = req.params
+       const data = await partServices.getOnePartService(id)
+       res.status(200).json({
+              success:true,
+              message:'successfully get a part.',
+              data
+                     })
+       
+} catch (error) {
+       res.status(404).json({
+              success:false,
+              message:error.message
+       })
+}        
+ }
