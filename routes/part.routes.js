@@ -8,6 +8,7 @@ routes.get('/',PartControllers.getAllPartController)
 
 routes.route('/:id')
 .get(PartControllers.getOnePartController)
+.delete(PartControllers.deleteOnePartController)
 
 
 module.exports = routes;

@@ -53,3 +53,21 @@ try {
        })
 }        
  }
+//deleteOnePartController//
+module.exports.deleteOnePartController =  async(req,res,next)=>{
+try {
+       const {id} = req.params
+       const data = await partServices.deleteOnePartService(id)
+       res.status(200).json({
+              success:true,
+              message:'successfully deleted a part.',
+              data
+                     })
+       
+} catch (error) {
+       res.status(404).json({
+              success:false,
+              message:error.message
+       })
+}        
+ }
