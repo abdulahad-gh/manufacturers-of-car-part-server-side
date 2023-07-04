@@ -25,3 +25,8 @@ exports.deleteOnePartService = async(id)=>{
 const data = await Part.deleteOne({_id:id})
 return data
 }
+//patchOnePartService//
+exports.patchOnePartService = async(id,updateDoc)=>{
+const data = await Part.findOneAndUpdate({_id:id},updateDoc)
+return data
+}

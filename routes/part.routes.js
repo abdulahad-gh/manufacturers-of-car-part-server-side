@@ -8,6 +8,7 @@ routes.get('/',PartControllers.getAllPartController)
 
 routes.route('/:id')
 .get(PartControllers.getOnePartController)
+.patch(PartControllers.patchOnePartController)
 .delete(PartControllers.deleteOnePartController)
 
 
