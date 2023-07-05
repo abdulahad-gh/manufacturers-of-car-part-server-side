@@ -1,3 +1,5 @@
+const { default: mongoose, Mongoose } = require("mongoose")
+// const {ObjectId} = mongoose.Schema.Types.ObjectId
 const Part = require("../models/Part")
 
 
@@ -29,4 +31,10 @@ return data
 exports.patchOnePartService = async(id,updateDoc)=>{
 const data = await Part.findOneAndUpdate({_id:id},updateDoc)
 return data
+}
+
+//patchManyPartService//
+exports.patchManyPartService = async(doc)=>{
+            const data = await Part.updateMany({_id:doc.ids},doc.updateDoc,{runValidators:true})
+            return data
 }

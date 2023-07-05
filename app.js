@@ -112,13 +112,6 @@ app.use('/api/v1/parts',partRoutes)
 //         // }
 
 
-//         //get one part api
-//         // app.get('/part/:id', async (req, res) => {
-//         //     const id = req.params;
-//         //     const filter = { _id: ObjectId(id) }
-//         //     const part = await partCollection.findOne(filter);
-//         //     res.send(part)
-//         // })
 
 //         // //user put api
 //         // app.put('/user/:email', async (req, res) => {
