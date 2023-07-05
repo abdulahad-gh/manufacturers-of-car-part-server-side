@@ -35,6 +35,12 @@ return data
 
 //patchManyPartService//
 exports.patchManyPartService = async(doc)=>{
-            const data = await Part.updateMany({_id:doc.ids},doc.updateDoc,{runValidators:true})
+            // const data = await Part.updateMany({_id:doc.ids},doc.updateDoc,{runValidators:true})
+            const products = []
+            doc.ids.forEach(item => {
+                products.push(Part.updateOne({_id:item.id},item.product))
+            }) 
+
+            const data = await Promise.all(products)
             return data
 }
