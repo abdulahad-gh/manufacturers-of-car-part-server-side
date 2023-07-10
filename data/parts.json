@@ -1,0 +1,171 @@
+[{
+  "_id": {
+    "$oid": "64aadd087e467464b8687059"
+  },
+  "name": "BRAKES",
+  "desc": "yamah ssbike is 11really stylies",
+  "price": 20012,
+  "img": "https://guide-images.cdn.ifixit.com/igi/3UWKNCh1NF5NAGTn.standard1",
+  "stock": "out-of-stock",
+  "availableQuan": 20120,
+  "minQuan": 2210,
+  "createdAt": {
+    "$date": "2023-07-09T16:15:04.502Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-09T16:15:04.502Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64aae0b0a9402e3b0f8baee1"
+  },
+  "name": "BRAKES 1",
+  "desc": "yamah ssbike is 11really stylies",
+  "price": 20012,
+  "img": "https://guide-images.cdn.ifixit.com/igi/3UWKNCh1NF5NAGTn.standard1",
+  "stock": "out-of-stock",
+  "availableQuan": 20120,
+  "minQuan": 2210,
+  "createdAt": {
+    "$date": "2023-07-09T16:30:40.230Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-09T16:30:40.230Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64aae0b4a9402e3b0f8baee3"
+  },
+  "name": "BRAKES 11",
+  "desc": "yamah ssbike is 11really stylies",
+  "price": 20012,
+  "img": "https://guide-images.cdn.ifixit.com/igi/3UWKNCh1NF5NAGTn.standard1",
+  "stock": "out-of-stock",
+  "availableQuan": 20120,
+  "minQuan": 2210,
+  "createdAt": {
+    "$date": "2023-07-09T16:30:44.477Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-09T16:30:44.477Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64aae0b7a9402e3b0f8baee5"
+  },
+  "name": "BRAKES 111",
+  "desc": "yamah ssbike is 11really stylies",
+  "price": 20012,
+  "img": "https://guide-images.cdn.ifixit.com/igi/3UWKNCh1NF5NAGTn.standard1",
+  "stock": "out-of-stock",
+  "availableQuan": 20120,
+  "minQuan": 2210,
+  "createdAt": {
+    "$date": "2023-07-09T16:30:47.523Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-09T16:30:47.523Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64aae0bca9402e3b0f8baee7"
+  },
+  "name": "BRAKES 211",
+  "desc": "yamah ssbike is 11really stylies",
+  "price": 20012,
+  "img": "https://guide-images.cdn.ifixit.com/igi/3UWKNCh1NF5NAGTn.standard1",
+  "stock": "out-of-stock",
+  "availableQuan": 20120,
+  "minQuan": 2210,
+  "createdAt": {
+    "$date": "2023-07-09T16:30:52.166Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-09T16:30:52.166Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64aae0bea9402e3b0f8baee9"
+  },
+  "name": "BRAKES 2211",
+  "desc": "yamah ssbike is 11really stylies",
+  "price": 20012,
+  "img": "https://guide-images.cdn.ifixit.com/igi/3UWKNCh1NF5NAGTn.standard1",
+  "stock": "out-of-stock",
+  "availableQuan": 20120,
+  "minQuan": 2210,
+  "createdAt": {
+    "$date": "2023-07-09T16:30:54.727Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-09T16:30:54.727Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64aae10aa9402e3b0f8baeef"
+  },
+  "name": "BRAKES habijabi",
+  "desc": "yamah ssbike is 11really stylies",
+  "price": 20012,
+  "img": "https://guide-images.cdn.ifixit.com/igi/3UWKNCh1NF5NAGTn.standard1",
+  "stock": "in-stock",
+  "availableQuan": 20120,
+  "minQuan": 2210,
+  "createdAt": {
+    "$date": "2023-07-09T16:32:10.233Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-09T16:32:10.233Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64aae10fa9402e3b0f8baef3"
+  },
+  "name": "car habijabi",
+  "desc": "yamah ssbike is 11really stylies",
+  "price": 20012,
+  "img": "https://guide-images.cdn.ifixit.com/igi/3UWKNCh1NF5NAGTn.standard1",
+  "stock": "in-stock",
+  "availableQuan": 20120,
+  "minQuan": 2210,
+  "createdAt": {
+    "$date": "2023-07-09T16:32:15.216Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-09T16:32:15.216Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "64aae117a9402e3b0f8baef5"
+  },
+  "name": "glass habijabi",
+  "desc": "yamah ssbike is 11really stylies",
+  "price": 20012,
+  "img": "https://guide-images.cdn.ifixit.com/igi/3UWKNCh1NF5NAGTn.standard1",
+  "stock": "in-stock",
+  "availableQuan": 20120,
+  "minQuan": 2210,
+  "createdAt": {
+    "$date": "2023-07-09T16:32:23.415Z"
+  },
+  "updatedAt": {
+    "$date": "2023-07-09T16:32:23.415Z"
+  },
+  "__v": 0
+}]

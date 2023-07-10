@@ -4,11 +4,11 @@ const PartControllers =  require('../controllers/part.controller')
 
 
 routes.post('/add-part',PartControllers.postPartController)
+routes.post('/add-part-many',PartControllers.postManyDataController)
+routes.route('/bulk-update').patch(PartControllers.patchManyPartController)
+routes.route('/bulk-delete').delete(PartControllers.deleteManyPartController)
+
 routes.get('/',PartControllers.getAllPartController)
-
-routes.route('/bulk-update')
-.patch(PartControllers.patchManyPartController)
-
 
 routes.route('/:id')
 .get(PartControllers.getOnePartController)

@@ -12,15 +12,30 @@ const partSchema = mongoose.Schema({
     stock:{
         type:String,
         required:[true,"stock can't be empty"],
-        enum: ['in-stock','out-of-stock','discontinued'],
+        enum: ['in-stock','out-of-stock','discontinued','0'],
         default:'in-stock'
     },
+    
     availableQuan:Number,
     minQuan:Number,
 
 },{
     timestamps:true
 })
+
+partSchema.pre('save',function(next){
+    if(this.stock == 0){
+        this.stock = 'out-of-stock'
+    }
+    next()
+})
+partSchema.post('save',function(doc,next){
+    console.log(`this is from ${doc.name}`)
+    next()
+})
+partSchema.method.logger = function(){
+    console.log('this is from logger...',this.name)
+}
 
 const Part  = mongoose.model('Part',partSchema)
 module.exports = Part;
