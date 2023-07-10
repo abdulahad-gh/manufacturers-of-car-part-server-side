@@ -50,7 +50,21 @@ module.exports.postManyDataController = async (req, res, next) => {
 //getAllPartController//
 module.exports.getAllPartController = async (req, res, next) => {
   try {
-    const data = await partServices.getAllPartService(req.query);
+
+    const filters = {...req.query}
+    const queries = {}
+    //query property exclude//
+    const excludeFields = ['sort','page','limit','select']
+  excludeFields.forEach(field => delete filters[field])
+    if(req.query.sort){
+      queries.sortBy=req.query.sort.split(',').join(' ')
+    }
+    if(req.query.select){
+      queries.select=req.query.select.split(',').join(' ')
+    }
+    console.log(queries,filters)
+
+    const data = await partServices.getAllPartService(filters,queries);
     res.status(200).json({
       success: true,
       message: "successfully get all parts.",
