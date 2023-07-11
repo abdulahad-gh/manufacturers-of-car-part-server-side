@@ -53,12 +53,7 @@ module.exports.getAllPartController = async (req, res, next) => {
     
     let filters = {...req.query}
     let filtersStringify = JSON.stringify(filters).replace(/\b(gt|lt|gte|lte)\b/g,match=>`$${match}`)
-
     filters=JSON.parse(filtersStringify)
-    
-    
-    console.log(filters)
-    console.log(filtersStringify)
     const queries = {}
     //query property exclude//
     const excludeFields = ['sort','page','limit','select']
@@ -68,6 +63,19 @@ module.exports.getAllPartController = async (req, res, next) => {
     }
     if(req.query.select){
       queries.select=req.query.select.split(',').join(' ')
+    }
+    if(req.query.page){
+      const {page=1,limit=10} = req.query
+      console.log(req.query)
+      //pagenation system
+      //product 50
+      //page 1 => 1-10
+      //page 2 => 11-20 2-1 * 10
+      //page 3 => 21-30 3-1 * 10
+      //page 4 => 31-40 4-1 * 10
+      //page 5 => 41-50 5-1 * 10
+      queries.skip = (page-1) * parseInt(limit)
+      queries.limit = parseInt(limit)
     }
 
     const data = await partServices.getAllPartService(filters,queries);

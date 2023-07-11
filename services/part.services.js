@@ -16,9 +16,13 @@ exports.postManyDataService = async (datas) => {
 //getAllPartService//
 exports.getAllPartService = async (filters, queries) => {
   const data = await Part.find(filters)
+    .skip(queries.skip)
+    .limit(queries.limit)
     .select(queries.select)
     .sort(queries.sortBy);
-  return data;
+  const total = await Part.countDocuments(filters);
+  const totalPage = Math.ceil(total/queries.limit)
+  return {total,totalPage,data};
 };
 
 //getOnePartService//
