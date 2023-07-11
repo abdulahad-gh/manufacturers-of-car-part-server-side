@@ -14,8 +14,10 @@ exports.postManyDataService = async (datas) => {
 };
 
 //getAllPartService//
-exports.getAllPartService = async (filters,queries) => {
-  const data = await Part.find(filters).select(queries.select).sort(queries.sortBy)
+exports.getAllPartService = async (filters, queries) => {
+  const data = await Part.find(filters)
+    .select(queries.select)
+    .sort(queries.sortBy);
   return data;
 };
 

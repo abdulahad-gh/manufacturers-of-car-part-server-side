@@ -35,9 +35,9 @@ module.exports.postManyDataController = async (req, res, next) => {
   });
 //     console.log(data, "hi");
 //     res.status(200).json({
-//       success: true,
+//       success: true, 
 //       message: "successfully post all parts.",
-//       data: result,
+//       data: result,,
 //     });
   } catch (error) {
     res.status(404).json({
@@ -50,8 +50,15 @@ module.exports.postManyDataController = async (req, res, next) => {
 //getAllPartController//
 module.exports.getAllPartController = async (req, res, next) => {
   try {
+    
+    let filters = {...req.query}
+    let filtersStringify = JSON.stringify(filters).replace(/\b(gt|lt|gte|lte)\b/g,match=>`$${match}`)
 
-    const filters = {...req.query}
+    filters=JSON.parse(filtersStringify)
+    
+    
+    console.log(filters)
+    console.log(filtersStringify)
     const queries = {}
     //query property exclude//
     const excludeFields = ['sort','page','limit','select']
@@ -62,7 +69,6 @@ module.exports.getAllPartController = async (req, res, next) => {
     if(req.query.select){
       queries.select=req.query.select.split(',').join(' ')
     }
-    console.log(queries,filters)
 
     const data = await partServices.getAllPartService(filters,queries);
     res.status(200).json({
