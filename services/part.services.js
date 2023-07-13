@@ -1,10 +1,13 @@
-const { default: mongoose, Mongoose } = require("mongoose");
-// const {ObjectId} = mongoose.Schema.Types.ObjectId
+
+const Brand = require("../models/Brand");
 const Part = require("../models/Part");
 
 //postPartService //
 exports.postPartService = async (data) => {
   const result = await Part.create(data);
+  const {_id:productId,brand} = result;
+  const res  = await Brand.updateOne({_id:brand.id},{$push:{products:productId}},{runValidators:true})
+  console.log(res)
   return result;
 };
 //postManyDataService//
