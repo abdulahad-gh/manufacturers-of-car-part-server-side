@@ -24,24 +24,47 @@ exports.postManyDataService = async (datas) => {
 
 //getAllPartService//
 exports.getAllPartService = async (filters, queries) => {
-  const data = await Part.find(filters)
-    .skip(queries.skip)
-    .limit(queries.limit)
-    .select(queries.select)
-    .sort(queries.sortBy);
-  const total = await Part.countDocuments(filters);
-  const totalPage = Math.ceil(total / queries.limit);
-  return { total, totalPage, data };
+  // const data = await Part.find(filters)
+  //   .skip(queries.skip)
+  //   .limit(queries.limit)
+  //   .select(queries.select)
+  //   .sort(queries.sortBy);
+  // const total = await Part.countDocuments(filters);
+  // const totalPage = Math.ceil((total / queries.limit));
+  // return { total, totalPage, data };
+
+  const data = await Part.aggregate([
+// {
+
+// }
+//     ,
+    {$project:{
+      name:1,
+      price:1,
+      "brand.name":1,
+      _id:0
+    }}
+  ])
+  return { data };
 };
 
 //getOnePartService//
 exports.getOnePartService = async (id) => {
-  // const data = await Part.find({ _id: id });
+  // const data = await Part.find({ _id: id }).populate('brand.id');
   const data = await Part.aggregate([
-    {  $match: { _id: new ObjectId(id) } }
-    
+    {  $match: { _id: new ObjectId(id) } },
+    {
+      $lookup:
+      {
+        from:"brands",
+        localField:"brand.name",
+        foreignField:"name",
+        as:"brandDetails"
+
+      }
+    }
   ]);
-  console.log(data);
+  // console.log(data);
   return data;
 };
 
@@ -58,7 +81,14 @@ exports.deleteManyPartService = async (ids) => {
 //patchOnePartService//
 exports.patchOnePartService = async (id, updateDoc) => {
   // const data = await Part.findOneAndUpdate({ _id: id }, updateDoc);
-  const data = await Part.aggregate([]);
+  const data = await Part.aggregate([
+    {
+      $match:{_id: new ObjectId(id)}
+    },
+    {
+      $set:{updateDoc}
+    }
+  ]);
   return data;
 };
 

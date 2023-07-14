@@ -72,7 +72,10 @@ module.exports.getAllPartController = async (req, res, next) => {
       queries.sortBy=req.query.sort.split(',').join(' ')
     }
     if(req.query.select){
-      queries.select=req.query.select.split(',').join(' ')
+    queries.select =  req.query.select.split(',').join(' ')
+    console.log(queries)
+
+      
     }
     if(req.query.page){
       const {page=1,limit=10} = req.query
