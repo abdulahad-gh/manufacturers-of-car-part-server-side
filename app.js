@@ -11,6 +11,7 @@ require('dotenv').config()
 const partRoutes = require('./routes/part.routes')
 const brandRoutes = require('./routes/brand.routes')
 const storeRoutes = require('./routes/store.routes')
+const stockRoutes = require('./routes/stock.routes')
 //middleware
 app.use(cors());
 app.use(express.json());
@@ -19,7 +20,7 @@ app.use(express.json());
 app.use('/api/v1/parts',partRoutes)
 app.use('/api/v1/brand',brandRoutes)
 app.use('/api/v1/store',storeRoutes)
-
+app.use('/api/v1/stock',stockRoutes)
 
 
 // const transporter = nodemailer.createTransport({
