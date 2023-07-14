@@ -7,4 +7,9 @@ routes
   .post(brandControllers.createBrandController)
   .get(brandControllers.getBrandController);
 
+
+  routes
+  .route('/:id')
+  .patch(brandControllers.updateBrandByIdController)
+
 module.exports = routes;

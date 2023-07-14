@@ -2,6 +2,16 @@ const fs = require("fs");
 const checkIdExistsMiddleware = require("../middleware/checkIdExists");
 const partServices = require("../services/part.services");
 
+//fileUploderController
+module.exports.postFileController = (req,res)=>{
+  try{
+    res.status(200).json(req.file)
+  }catch(error){
+
+  }
+
+}
+
 //createPartController
 module.exports.postPartController = async (req, res, next) => {
   try {

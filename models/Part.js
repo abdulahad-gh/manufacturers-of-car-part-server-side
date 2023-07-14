@@ -12,7 +12,7 @@ const partSchema = mongoose.Schema(
     price: Number,
     img: String,
     brand: {
-      id: { type: ObjectId, ref: "Brand" },
+      id: { type: ObjectId, ref: "Brand",required:true },
     },
     stock: {
       type: String,

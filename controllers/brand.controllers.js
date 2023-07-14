@@ -47,3 +47,29 @@ exports.getBrandController = async (req, res, next) => {
     });
   }
 };
+
+//updateBrand
+exports.updateBrandByIdController = async (req, res, next) => {
+
+  const {id} = req.params
+  const updateDoc = req.body
+  const data = await brandService.updateBrandByIdService(id,updateDoc);
+  try {
+    if (!data) {
+      return res.status(400).json({
+        status: "fail",
+        error: "brand data can't update with this id, someting went wrong...",
+      });
+    }
+    res.status(200).json({
+      status: "success",
+      message: "successfully updated the brand",
+      data,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error.message,
+    });
+  }
+};
