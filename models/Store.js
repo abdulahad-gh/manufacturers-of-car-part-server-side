@@ -3,13 +3,14 @@ const validator=  require('validator')
 const storeSchema = mongoose.Schema({
     name:{
         type: String,
+        unique:[true,"{VALUE} location have already exists our outlet."],
         trim:true,
         required:[true,"please, provide a store name"],
         lowercase:true,
         enum:{
             values:['dhaka','chattogram','barishal','maymanshingh','syhlet','rajshahi','rangpur','khulna'],
             message:"this moment we have no plan in {VALUE} location. we are sorry!"
-        }
+        },
 
     },
     contactNumber:String,

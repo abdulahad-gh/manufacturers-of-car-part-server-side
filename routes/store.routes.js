@@ -6,6 +6,7 @@ const routes = express.Router()
 routes
 .route('/')
     .post(storeControllers.createStoreController)
+    .get(storeControllers.getAllStoreController)
 
 
 
