@@ -10,6 +10,7 @@ const cors = require('cors');
 require('dotenv').config()
 const partRoutes = require('./routes/part.routes')
 const brandRoutes = require('./routes/brand.routes')
+const storeRoutes = require('./routes/store.routes')
 //middleware
 app.use(cors());
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use(express.json());
 //route
 app.use('/api/v1/parts',partRoutes)
 app.use('/api/v1/brand',brandRoutes)
+app.use('/api/v1/store',storeRoutes)
 
 
 

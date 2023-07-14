@@ -121,6 +121,7 @@ module.exports.getOnePartController = async (req, res, next) => {
     });
   }
 };
+
 //deleteOnePartController//
 module.exports.deleteOnePartController = async (req, res, next) => {
   try {

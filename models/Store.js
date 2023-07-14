@@ -7,7 +7,7 @@ const storeSchema = mongoose.Schema({
         required:[true,"please, provide a store name"],
         lowercase:true,
         enum:{
-            value:['dhaka','chattogram','barishal','maymanshingh','syhlet','rajshahi','rangpur','khulna'],
+            values:['dhaka','chattogram','barishal','maymanshingh','syhlet','rajshahi','rangpur','khulna'],
             message:"this moment we have no plan in {VALUE} location. we are sorry!"
         }
 
