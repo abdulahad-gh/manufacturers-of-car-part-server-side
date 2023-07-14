@@ -1,13 +1,19 @@
-
+const mongoose = require('mongoose');
 const Brand = require("../models/Brand");
 const Part = require("../models/Part");
+const  {ObjectId} = mongoose.Types
+
 
 //postPartService //
 exports.postPartService = async (data) => {
   const result = await Part.create(data);
-  const {_id:productId,brand} = result;
-  const res  = await Brand.updateOne({_id:brand.id},{$push:{products:productId}},{runValidators:true})
-  console.log(res)
+  const { _id: productId, brand } = result;
+  const res = await Brand.updateOne(
+    { _id: brand.id },
+    { $push: { products: productId } },
+    { runValidators: true }
+  );
+  console.log(res);
   return result;
 };
 //postManyDataService//
@@ -24,13 +30,18 @@ exports.getAllPartService = async (filters, queries) => {
     .select(queries.select)
     .sort(queries.sortBy);
   const total = await Part.countDocuments(filters);
-  const totalPage = Math.ceil(total/queries.limit)
-  return {total,totalPage,data};
+  const totalPage = Math.ceil(total / queries.limit);
+  return { total, totalPage, data };
 };
 
 //getOnePartService//
 exports.getOnePartService = async (id) => {
-  const data = await Part.find({ _id: id });
+  // const data = await Part.find({ _id: id });
+  const data = await Part.aggregate([
+    {  $match: { _id: new ObjectId(id) } }
+    
+  ]);
+  console.log(data);
   return data;
 };
 
@@ -46,7 +57,8 @@ exports.deleteManyPartService = async (ids) => {
 };
 //patchOnePartService//
 exports.patchOnePartService = async (id, updateDoc) => {
-  const data = await Part.findOneAndUpdate({ _id: id }, updateDoc);
+  // const data = await Part.findOneAndUpdate({ _id: id }, updateDoc);
+  const data = await Part.aggregate([]);
   return data;
 };
 
