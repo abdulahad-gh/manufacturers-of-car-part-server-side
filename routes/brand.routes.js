@@ -11,5 +11,6 @@ routes
   routes
   .route('/:id')
   .patch(brandControllers.updateBrandByIdController)
+  .delete(brandControllers.deleteBrandByIdController)
 
 module.exports = routes;

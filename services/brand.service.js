@@ -19,4 +19,10 @@ exports.updateBrandByIdService = async (id,updateDoc) => {
   return result;
 };
 
+//deleteBrandByIdService
+exports.deleteBrandByIdService = async (id) => {
+  const result = await Brand.deleteOne({_id:id})
+  return result;
+};
+
 
