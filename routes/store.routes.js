@@ -8,6 +8,9 @@ routes
     .post(storeControllers.createStoreController)
     .get(storeControllers.getAllStoreController)
 
+routes.route('/:id')
+    .patch(storeControllers.updateStoreByIdController)
+
 
 
 module.exports = routes;

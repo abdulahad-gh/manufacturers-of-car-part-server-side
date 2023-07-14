@@ -36,3 +36,24 @@ res.status(400).json({
 })
 }
 }
+
+
+//updateStoreByIdController
+exports.updateStoreByIdController = async (req,res)=>{
+try{
+    const {id}  =req.params
+    const updateStoreDoc = req.body
+    const data = await storeServices.updateStoreByIdService(id,updateStoreDoc);
+   res.status(200).json({
+    status:'success',
+    message:'successfully updated a  store.',
+    data
+
+   })
+}catch(error){
+res.status(400).json({
+    status:'fail',
+    error:error.message
+})
+}
+}
