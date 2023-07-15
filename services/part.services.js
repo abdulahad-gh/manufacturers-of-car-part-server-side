@@ -34,17 +34,22 @@ exports.getAllPartService = async (filters, queries) => {
   // return { total, totalPage, data };
 
   const data = await Part.aggregate([
-// {
+    {
+      $match:{}
+    },
+    {
+      $group:{
+        _id:"$brand",
+        totalPrice:{$sum:"$price"},
+        totalAvg:{$avg:"$price"}
+      }
+    },
+    {
+      $sort:{totalPrice : -1}
+    }
 
-// }
-//     ,
-    {$project:{
-      name:1,
-      price:1,
-      "brand.name":1,
-      _id:0
-    }}
   ])
+
   return { data };
 };
 
