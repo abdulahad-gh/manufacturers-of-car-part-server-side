@@ -37,16 +37,16 @@ exports.getAllPartService = async (filters, queries) => {
     {
       $match:{}
     },
-    {
-      $group:{
-        _id:"$brand",
-        totalPrice:{$sum:"$price"},
-        totalAvg:{$avg:"$price"}
-      }
-    },
-    {
-      $sort:{totalPrice : -1}
-    }
+    // {
+    //   $group:{
+    //     _id:"$brand",
+    //     totalPrice:{$sum:"$price"},
+    //     totalAvg:{$avg:"$price"}
+    //   }
+    // },
+    // {
+    //   $sort:{totalPrice : -1}
+    // }
 
   ])
 
@@ -86,14 +86,16 @@ exports.deleteManyPartService = async (ids) => {
 //patchOnePartService//
 exports.patchOnePartService = async (id, updateDoc) => {
   // const data = await Part.findOneAndUpdate({ _id: id }, updateDoc);
+
   const data = await Part.aggregate([
     {
       $match:{_id: new ObjectId(id)}
     },
     {
-      $set:{updateDoc}
+      $set:{...updateDoc,modified:"$$NOW"}
     }
   ]);
+  console.log({...updateDoc,modified:"$$NOW"})
   return data;
 };
 
