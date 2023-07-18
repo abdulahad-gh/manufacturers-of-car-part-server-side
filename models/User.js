@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require('bcrypt')
 
 const userSchema = mongoose.Schema({
   email: {
@@ -66,6 +67,20 @@ const userSchema = mongoose.Schema({
 },{
     timestamps:true
 });
+
+userSchema.pre("save",function(next){
+    const encyrptPassword = bcrypt.hashSync(this.password)
+    this.password = encyrptPassword;
+    this.confirmPassword=undefined;
+
+    next()
+})
+
+userSchema.methods = function(password,user){
+    const encyrptPassword = bcrypt.hashSync(password)
+    const password = bcrypt.compareSync(encyrptPassword,user.password)
+    return password
+}
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
