@@ -1,12 +1,11 @@
-const User = require("../models/User");
+const User = require("../models/User")
 
 
 //signupService
-exports.signupService = async(userData)=>{
-    console.log(userData,99)
-    // const user = 
-    console.log(await User.create(userData))
-    // return user
+module.exports.signupService = async(userData)=>{
+    const data = userData
+    const user = await User.create(data)
+    return user
 }
 
 

@@ -8,7 +8,7 @@ exports.generateToken = (userInfo) => {
   };
 
   const token = jwt.sign(payload, process.env.TOKEN_SECRET_KAY, {
-    expiresIn: "20",
+    expiresIn: "30s",
   });
 
   return token;

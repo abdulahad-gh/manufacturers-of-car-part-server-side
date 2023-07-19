@@ -14,18 +14,18 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      validate:{
-        validator:(value)=>{
-          validator.isStrongPassword(value,{
-            minLength:8,
-            minLowercase:1,
-            minUppercase:1,
-            minNumbers:1,
-            minSymbols:1
-          })
+      validate: {
+        validator: (value) => {
+          validator.isStrongPassword(value, {
+            minLength: 6,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 1,
+          });
         },
-        message: "password should be strong."
-      }
+        message: "password should be strong.",
+      },
     },
     confirmPassword: {
       type: String,
@@ -82,6 +82,10 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+userSchema.methods.comparePassword = function (password, hashPass) {
+  const idValidPass = bcrypt.compareSync(password, hashPass);
+  return idValidPass;
+};
 
 userSchema.pre("save", function (next) {
   const encyrptPassword = bcrypt.hashSync(this.password);
@@ -90,11 +94,6 @@ userSchema.pre("save", function (next) {
 
   next();
 });
-
-userSchema.methods.comparepassword = function(password,hashPassword){
-    const isPasswordValid = bcrypt.compareSync(password,hashPassword)
-    return isPasswordValid
-}
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;

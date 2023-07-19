@@ -1,9 +1,10 @@
+const User = require("../models/User");
 const userService = require("../services/user.service");
 const { generateToken } = require("../utils/token");
 
 
 //signupController
-exports.signupController = async (req, res) => {
+module.exports.signupController = async (req, res) => {
   try {
     const data = await userService.signupService(req.body);
     // if (!data) {
@@ -16,7 +17,7 @@ exports.signupController = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       status: "failed",
-      error,
+      error:'dddd'
     });
   }
 };
@@ -34,7 +35,7 @@ exports.signupController = async (req, res) => {
  * generate token
  * res user data & token
 */
-exports.signinController = async (req, res) => {
+module.exports.signinController = async (req, res) => {
   try {
     const {email,password} = req.body
     if(!email || !password){
@@ -52,7 +53,7 @@ if(!user){
   })
 }
 console.log(user)
-  const isValidPassword =  user.comparepassword(password,user.password)
+  const isValidPassword = await user.comparePassword(password,user.password)
   if(!isValidPassword){
     return res.status(403).json({
       status:"failed",
@@ -74,3 +75,22 @@ const token = generateToken(user)
     });
   }
 };
+
+
+//getMeCpntroller
+exports.getMe = async (req,res)=>{
+ try {
+  const {email} = req.user
+  const user = await User.find({email})
+  res.status(200).json({
+    status: "success",
+    data:user
+  });
+ } catch (error) {
+  res.status(500).json({
+    status: "failed",
+    error:error.message
+  });
+ }
+
+}
