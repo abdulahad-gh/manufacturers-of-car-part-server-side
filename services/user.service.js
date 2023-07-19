@@ -1,6 +1,7 @@
 const User = require("../models/User");
 
 exports.signupService = async(userInfo)=>{
-    const user = await user.create(userInfo,{runValidators:true})
+    console.log(userInfo,99)
+    const user = await User.create(userInfo)
     return user
 }
