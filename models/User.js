@@ -84,19 +84,17 @@ const userSchema = mongoose.Schema(
 );
 
 userSchema.pre("save", function (next) {
-  const password = this.password;
-  const encyrptPassword = bcrypt.hashSync(password);
+  const encyrptPassword = bcrypt.hashSync(this.password);
   this.password = encyrptPassword;
-  // this.confirmPassword = undefined;
+  this.confirmPassword = undefined;
 
   next();
 });
 
-// userSchema.methods = function(password,user){
-//     const encyrptPassword = bcrypt.hashSync(password)
-//     const result = bcrypt.compareSync(encyrptPassword,user.password)
-//     return result
-// }
+userSchema.methods.comparepassword = function(password,hashPassword){
+    const isPasswordValid = bcrypt.compareSync(password,hashPassword)
+    return isPasswordValid
+}
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
