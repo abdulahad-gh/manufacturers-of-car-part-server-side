@@ -8,7 +8,7 @@ module.exports.signupController = async (req, res) => {
   try {
     console.log('hiiii from signup controller')
     const msgData = {
-      to: "abdulahad.dev.mail.acc@gmail.com",
+      to: ["abdulahad.dev.mail.acc@gmail.com"],
       subject: "verify your account",
       text: "thanks for verify your account",
     };
