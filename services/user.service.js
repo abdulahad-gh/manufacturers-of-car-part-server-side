@@ -10,7 +10,7 @@ module.exports.signupService = async(userData)=>{
 
 
 //userFindByEmailService
-exports.userFindByEmailService = async(email)=>{
+module.exports.userFindByEmailService = async(email)=>{
     const user = await User.find({email })
     return user
 }
