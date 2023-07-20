@@ -6,7 +6,7 @@ const verifyToken = require('../middleware/verifyToken');
 const authorization = require('../middleware/authorization')
 
 routes.post('/file-upload',uploder.single('image'),PartControllers.postFileController)
-routes.post('/add-part',PartControllers.postPartController)
+routes.post('/add-product',PartControllers.postPartController)
 routes.post('/add-part-many',PartControllers.postManyDataController)
 routes.route('/bulk-update').patch(PartControllers.patchManyPartController)
 routes.route('/bulk-delete').delete(PartControllers.deleteManyPartController)
