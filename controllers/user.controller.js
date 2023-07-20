@@ -80,8 +80,7 @@ const token = generateToken(user)
 //getMeCpntroller
 exports.getMe = async (req,res)=>{
  try {
-  const {email} = req.user
-  const user = await User.find({email})
+  const user = await userService.userFindByEmailService(req?.user?.email)
   res.status(200).json({
     status: "success",
     data:user
