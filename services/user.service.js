@@ -15,3 +15,9 @@ module.exports.userFindByEmailService = async(email)=>{
     const user = await User.find({email })
     return user
 }
+
+//confirmationTokenService
+module.exports.confirmationTokenService = async(token)=>{
+    const user = await User.find({confirmationToken:token })
+    return user
+}

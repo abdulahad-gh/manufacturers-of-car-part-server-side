@@ -69,7 +69,7 @@ const userSchema = mongoose.Schema(
     status: {
       type: String,
       enum: ["active", "inactive", "blocked"],
-      default: "active",
+      default: "inactive",
     },
     imgURL: {
       type: String,

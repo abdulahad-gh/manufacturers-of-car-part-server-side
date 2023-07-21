@@ -1,17 +1,19 @@
-const User = require("../models/User");
 const userService = require("../services/user.service");
-const { sendMailByMailgun } = require("../utils/email");
+// const { sendMailByMailgun } = require("../utils/email");
 const { generateToken } = require("../utils/token");
 
 //signupController
 module.exports.signupController = async (req, res) => {
   try {
     const data = await userService.signupService(req.body);
-    // const msgData = {
-    //   to: ["abdulahad.dev.mail.acc@gmail.com"],
-    //   subject: "verify your account",
-    //   text: "thanks for verify your account",
-    // };
+    const token = data.generateConfirmationToken()
+    console.log(token)
+    data.save({validateBeforeSave:false})
+    const msgData = {
+      to: ["abdulahad.dev.mail.acc@gmail.com"],
+      subject: "verify your account",
+      text: `thanks for create your account. please active your account with click this link=> ${req.protocol}://${req.get("host")}${req.originalUrl}/confirmation/${token}`,
+    };
     // console.log(msgData)
     // sendMailByMailgun(msgData);
 
@@ -117,6 +119,31 @@ module.exports.userFindByEmailController = async (req, res) => {
     const currentUser = req.body;
     console.log(email, currentUser);
     const user = await userService.userFindByEmailService(email, currentUser);
+  } catch (error) {
+    res.status(500).json({
+      status: "failed",
+      error: error.message,
+    });
+  }
+};
+//confirmationToken
+module.exports.confirmationToken = async (req, res) => {
+  try {
+    const {token} = req.params
+    const user = await userService.confirmationTokenService(token);
+    if(!user){
+      return res.status(401).json({status:"fail",error:"your token is invalid"})
+    }
+    
+    const expiredToken = new Date().getDate() > user.confirmationTokenExpired
+    if(expiredToken){
+      return res.status(401).json({status:"fail",error:"your token is expired"})
+    }
+    user.status = "active"
+    user.confirmationToken = undefined
+    user.confirmationTokenExpired = undefined
+    user.save({validateBeforeSave:false})
+    res.status(200).json({status:"success",message:"Yeeh! your account is now active."})
   } catch (error) {
     res.status(500).json({
       status: "failed",
