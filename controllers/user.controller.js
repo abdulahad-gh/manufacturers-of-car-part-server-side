@@ -6,22 +6,22 @@ const { generateToken } = require("../utils/token");
 //signupController
 module.exports.signupController = async (req, res) => {
   try {
-    console.log('hiiii from signup controller')
-    const msgData = {
-      to: ["abdulahad.dev.mail.acc@gmail.com"],
-      subject: "verify your account",
-      text: "thanks for verify your account",
-    };
-    console.log(msgData)
-    sendMailByMailgun(msgData);
     const data = await userService.signupService(req.body);
-    // if (!data) {
-    //   return res.status(500).json({
-    //     status: "failed",
-    //     error: "can't created account, something went wrong!!!",
-    //   });
-    // }
+    // const msgData = {
+    //   to: ["abdulahad.dev.mail.acc@gmail.com"],
+    //   subject: "verify your account",
+    //   text: "thanks for verify your account",
+    // };
+    // console.log(msgData)
+    // sendMailByMailgun(msgData);
 
+    if (!data) {
+      return res.status(500).json({
+        status: "failed",
+        error: "can't created account, something went wrong!!!",
+      });
+    }
+data.save({validateBeforeSave:false})
     res
       .status(200)
       .json({ status: "success", message: "successfully signup.", data });

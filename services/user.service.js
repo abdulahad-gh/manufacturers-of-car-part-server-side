@@ -4,7 +4,8 @@ const User = require("../models/User")
 //signupService
 module.exports.signupService = async(userData)=>{
     const data = userData
-    const user = await User.create(data)
+    console.log(data)
+    const user = await User.create(data,{runValidators:true})
     return user
 }
 

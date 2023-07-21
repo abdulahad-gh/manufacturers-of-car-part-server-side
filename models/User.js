@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
+const crypto = require('crypto')
 
 const userSchema = mongoose.Schema(
   {
@@ -74,6 +75,8 @@ const userSchema = mongoose.Schema(
       type: String,
       validate: [validator.isURL, "please provide a valid url"],
     },
+    confirmationToken:String,
+    confirmationTokenExpired:Date,
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpires: Date,
@@ -81,19 +84,32 @@ const userSchema = mongoose.Schema(
   {
     timestamps: true,
   }
-);
+  );
+
+  userSchema.pre("save", function (next) {
+    const encyrptPassword = bcrypt.hashSync(this.password);
+    this.password = encyrptPassword;
+    this.confirmPassword = undefined;
+  
+    next();
+  });
+
 userSchema.methods.comparePassword = function (password, hashPass) {
   const idValidPass = bcrypt.compareSync(password, hashPass);
   return idValidPass;
 };
 
-userSchema.pre("save", function (next) {
-  const encyrptPassword = bcrypt.hashSync(this.password);
-  this.password = encyrptPassword;
-  this.confirmPassword = undefined;
+//add method for generate confirmation token
+userSchema.methods.generateConfirmationToken = function (){
+  const token = crypto.randomBytes(32).toString("hex")
+  this.confirmationToken = token
+  const date =  new Date;
+  date.setDate(date.getDate()+1)
+  this.confirmationTokenExpired = date
 
-  next();
-});
+  return token
+}
+
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
