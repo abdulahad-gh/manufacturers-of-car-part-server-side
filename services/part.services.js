@@ -7,6 +7,7 @@ const  {ObjectId} = mongoose.Types
 //postPartService //
 exports.postPartService = async (data) => {
   const result = await Part.create(data);
+  console.log(result)
   const { _id: productId, brand } = result;
   const res = await Brand.updateOne(
     { _id: brand.id },

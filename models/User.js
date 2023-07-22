@@ -5,25 +5,19 @@ const crypto = require('crypto')
 
 const userSchema = mongoose.Schema(
   {
-    email: {
-      type: String,
-      // required: [true, "please, provide a eamil"],
-      validate: [validator.isEmail, "please, provide a valid email"],
-      unique: true,
-      lowercase: true,
-      trim: true,
-    },
+ email:{
+  type: String,
+  validate:[validator.isEmail,"please, provide a valid email"],
+  unique:[true,"already created account by this{VALUE} email!"],
+  lowercase:true,
+  trim:true
+
+ },
     password: {
       type: String,
       validate: {
-        validator: (value) => {
-          validator.isStrongPassword(value, {
-            minLength: 6,
-            minLowercase: 1,
-            minUppercase: 1,
-            minNumbers: 1,
-            minSymbols: 1,
-          });
+        validator: async (value) => {
+          return await validator.isStrongPassword(value);
         },
         message: "password should be strong.",
       },
@@ -35,7 +29,7 @@ const userSchema = mongoose.Schema(
           console.log(value === this.password);
           return value === this.password;
         },
-        message: "password don't matched, pleas type again!",
+        message: "password don't matched, please type again!",
       },
     },
     firstName: {
@@ -63,7 +57,7 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["user", "manager", "admin"],
+      enum: ["user", "store-manager", "admin"],
       default: "user",
     },
     status: {
@@ -79,36 +73,41 @@ const userSchema = mongoose.Schema(
     confirmationTokenExpired:Date,
     passwordChangedAt: Date,
     passwordResetToken: String,
-    passwordResetExpires: Date,
+    passwordResetTokenExpires: Date,
   },
   {
     timestamps: true,
   }
   );
-
-  userSchema.pre("save", function (next) {
-    const encyrptPassword = bcrypt.hashSync(this.password);
+  
+  userSchema.pre("save",  function (next) {
+    const  plainPassword = this.password
+    const encyrptPassword =  bcrypt.hashSync(plainPassword,9);
     this.password = encyrptPassword;
     this.confirmPassword = undefined;
   
     next();
   });
 
-userSchema.methods.comparePassword = function (password, hashPass) {
-  const idValidPass = bcrypt.compareSync(password, hashPass);
-  return idValidPass;
-};
+  userSchema.methods.comparePassword =  function (password, hashPass) {
+    const isValidPass = bcrypt.compareSync(password,hashPass)
 
-//add method for generate confirmation token
-userSchema.methods.generateConfirmationToken = function (){
-  const token = crypto.randomBytes(32).toString("hex")
-  this.confirmationToken = token
-  const date =  new Date;
-  date.setDate(date.getDate()+1)
-  this.confirmationTokenExpired = date
+    return isValidPass;
+  };
 
-  return token
-}
+
+
+
+// //add method for generate confirmation token
+// userSchema.methods.generateConfirmationToken = function (){
+//   const token = crypto.randomBytes(32).toString("hex")
+//   this.confirmationToken = token
+//   const date =  new Date;
+//   date.setDate(date.getDate()+1)
+//   this.confirmationTokenExpired = date
+
+//   return token
+// }
 
 
 const User = mongoose.model("User", userSchema);
