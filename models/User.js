@@ -88,14 +88,14 @@ const userSchema = mongoose.Schema(
   }
   );
   
-  userSchema.pre("save",  function (next) {
-    const  plainPassword = this.password
-    const encyrptPassword =  bcrypt.hashSync(plainPassword,9);
-    this.password = encyrptPassword;
-    this.confirmPassword = undefined;
+  // userSchema.pre("save",  function (next) {
+  //   const  plainPassword = this.password
+  //   const encyrptPassword =  bcrypt.hashSync(plainPassword,10);
+  //   this.password = encyrptPassword;
+  //   this.confirmPassword = undefined;
   
-    next();
-  });
+  //   next();
+  // });
 
   userSchema.methods.comparePassword =  function (password, hashPass) {
     const isValidPass = bcrypt.compareSync(password,hashPass)

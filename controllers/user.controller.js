@@ -15,7 +15,7 @@ module.exports.signupController = async (req, res) => {
     //     error: `already created account by this email- ${email}`,
     //   });
     // }
-    const userCreatedSuccessfully = await userService.signupService(email,userDoc)
+    const userCreatedSuccessfully = await userService.signupService(userDoc)
     // console.log(token)
     // data.save({validateBeforeSave:false})
     // const msgData = {
@@ -26,16 +26,16 @@ module.exports.signupController = async (req, res) => {
       // console.log(msgData)
       // sendMailByMailgun(msgData);
       
-      if (!userCreatedSuccessfully) {
-        return res.status(500).json({
-          status: "failed",
-          error: "already created account by this email!!!",
-        });
-      }
+      // if (!userCreatedSuccessfully) {
+      //   return res.status(500).json({
+      //     status: "failed",
+      //     error: "already created account by this email!!!",
+      //   });
+      // }
       const token = generateToken(userCreatedSuccessfully)
       res
       .status(200)
-      .json({ status: "success", message: "successfully signup.",data:{userCreatedSuccessfully,token}});
+      .json({ status: "success", message: "successfully signup.",token});
     // userCreatedSuccessfully.comparePassword('11','#dfd')
     // data.save({ validateBeforeSave: false });
     // res

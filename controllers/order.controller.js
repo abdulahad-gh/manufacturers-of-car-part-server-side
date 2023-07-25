@@ -44,6 +44,7 @@ exports.getAllOrderByEmail = async(req,res)=>{
 exports.deleteOrderById = async(req,res)=>{
     try {
         const id = req.params.id
+        console.log(id)
         const data = await orderServices.deleteOrderById(id)
         console.log(data)
         res.status(200).json({

@@ -21,6 +21,7 @@ exports.getAllOrderByEmail = async(email)=>{
 
 //deleteOrderByIdService
 exports.deleteOrderById = async(id)=>{
+    console.log(id,'from service')
     const result = await Order.findOneAndDelete({_id:ObjectId(id)})
     return result
 }

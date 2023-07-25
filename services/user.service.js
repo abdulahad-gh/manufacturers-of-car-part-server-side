@@ -2,15 +2,9 @@ const User = require("../models/User")
 const token = require('../utils/token')
 
 //signupService
-module.exports.signupService = async(email,userData)=>{
-    // const filter = userData.email
-    console.log('before line 8 from service')
-    let user = await User.find({email},email)
-    if(user[0]){
-        return user =  false
-    }
-    user = await User.create(userData)
-
+module.exports.signupService = async(userDoc)=>{
+    
+   const user = await User.create(userDoc)
     return user
 }
 
