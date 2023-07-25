@@ -7,9 +7,13 @@ const Order = require('../models/Order')
 //addOrderService
 exports.addOrder = async(orderInfo)=>{
     const result = await Order.create(orderInfo)
-    console.log(orderInfo)
-    console.log(result)
     const findOrderById = await Order.find({_id: result._id})
-    console.log(findOrderById)
     return findOrderById
+}
+
+
+//getAllOrderByEmailService
+exports.getAllOrderByEmail = async(email)=>{
+    const result = await Order.find({email})
+    return result
 }

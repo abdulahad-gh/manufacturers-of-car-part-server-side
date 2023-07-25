@@ -22,9 +22,11 @@ try {
 }
 
 //getAllOrderController
-exports.getAllOrder = async(req,res)=>{
+exports.getAllOrderByEmail = async(req,res)=>{
     try {
-        console.log(req.params.email,'from 27')
+        const email = req.params.email
+        const data = await orderServices.getAllOrderByEmail(email)
+        console.log(data)
         res.status(200).json({
             status:"success",
             message:"successfully order ",
