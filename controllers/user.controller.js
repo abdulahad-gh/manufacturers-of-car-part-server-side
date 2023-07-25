@@ -184,3 +184,23 @@ module.exports.confirmationToken = async (req, res) => {
     });
   }
 };
+
+
+//checkAdmin
+module.exports.checkAdmin = async (req, res) => {
+  try {
+    const email = req.params.email
+    const isAdmin = await userService.checkAdmin(email)
+    console.log(isAdmin)
+
+    res.status(200).json({
+      status: "success",
+      message: "Yeeh! your account is now active.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "failed",
+      error: error.message,
+    });
+  }
+};
