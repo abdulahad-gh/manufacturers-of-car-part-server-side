@@ -7,4 +7,4 @@ routes.post('/',orderControllers.addOrder)
 
 
 
-exports = routes
+module.exports = routes

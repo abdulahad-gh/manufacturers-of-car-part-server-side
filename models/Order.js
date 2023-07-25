@@ -1,6 +1,18 @@
 const {  mongoose } = require("mongoose");
+const validator = require('validator')
+const orderSchema = mongoose.Schema({
+    partId:String,
+    partName:String,
+    img:String,
+    price:Number,
+    email:{
+        type:String,
+        validate:[validator.isEmail,"your {VALUE} is not vaid email!"]
 
-const orderSchema = mongoose.Schema()
+    },
+    name:String,
+    phone:String
+})
 
 const Order = mongoose.model('Order',orderSchema)
-exports = Order;
+module.exports = Order;
