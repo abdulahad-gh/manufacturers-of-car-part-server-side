@@ -5,7 +5,7 @@ const orderControllers  = require('../controllers/order.controller')
 
 routes.post('/',orderControllers.addOrder)
 routes.get('/:email',orderControllers.getAllOrderByEmail)
-
+routes.delete('/:id',orderControllers.deleteOrderById)
 
 
 module.exports = routes
