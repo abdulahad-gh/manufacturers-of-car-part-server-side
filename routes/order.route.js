@@ -4,6 +4,7 @@ const orderControllers  = require('../controllers/order.controller')
 
 
 routes.post('/',orderControllers.addOrder)
+routes.get('/:email',orderControllers.getAllOrder)
 
 
 
