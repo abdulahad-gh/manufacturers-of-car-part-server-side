@@ -5,30 +5,42 @@ const { generateToken } = require("../utils/token");
 //signupController
 module.exports.signupController = async (req, res) => {
   try {
-    const data = await userService.signupService(req.body);
-    data.save({validateBeforeSave:false})
-    
-    // const token = data.generateConfirmationToken()
+    const email = req.params.email;
+    const userDoc = req.body;
+    // const userExists = await userService.userFindByEmailService(email);
+    // userExists.save({validateBeforeSave:false})
+    // if (userExists) {
+    //   res.status(500).json({
+    //     status: "failed",
+    //     error: `already created account by this email- ${email}`,
+    //   });
+    // }
+    const userCreatedSuccessfully = await userService.signupService(email,userDoc)
     // console.log(token)
     // data.save({validateBeforeSave:false})
     // const msgData = {
-    //   to: ["abdulahad.dev.mail.acc@gmail.com"],
-    //   subject: "verify your account",
-    //   text: `thanks for create your account. please active your account with click this link=> ${req.protocol}://${req.get("host")}${req.originalUrl}/confirmation/${token}`,
-    // };
-    // console.log(msgData)
-    // sendMailByMailgun(msgData);
-
-        if (!data) {
-          return res.status(500).json({
-            status: "failed",
-            error: "can't created account, something went wrong!!!",
-          });
-        }
-    data.save({validateBeforeSave:false})
-    res
+      //   to: ["abdulahad.dev.mail.acc@gmail.com"],
+      //   subject: "verify your account",
+      //   text: `thanks for create your account. please active your account with click this link=> ${req.protocol}://${req.get("host")}${req.originalUrl}/confirmation/${token}`,
+      // };
+      // console.log(msgData)
+      // sendMailByMailgun(msgData);
+      
+      if (!userCreatedSuccessfully) {
+        return res.status(500).json({
+          status: "failed",
+          error: "already created account by this email!!!",
+        });
+      }
+      const token = generateToken(userCreatedSuccessfully)
+      res
       .status(200)
-      .json({ status: "success", message: "successfully signup.", data });
+      .json({ status: "success", message: "successfully signup.",data:{userCreatedSuccessfully,token}});
+    // userCreatedSuccessfully.comparePassword('11','#dfd')
+    // data.save({ validateBeforeSave: false });
+    // res
+    //   .status(200)
+    //   .json({ status: "success", message: "successfully signup." });
   } catch (error) {
     res.status(500).json({
       status: "failed",
@@ -60,17 +72,18 @@ module.exports.signinController = async (req, res) => {
     }
 
     const data = await userService.userFindByEmailService(email);
-    const user = await data[0]
-console.log(user)
+    const user = await data[0];
+    console.log(user);
     if (!user) {
       return res.status(402).json({
         status: "failed",
         error: "don't have account with the email, please create an account",
       });
     }
-    console.log(password,user.password)
-    const isValidPassword = await user.comparePassword(password, user.password) || true;
-    console.log(isValidPassword)
+    console.log(password, user.password);
+    const isValidPassword =
+      (await user.comparePassword(password, user.password)) || true;
+    console.log(isValidPassword);
     if (!isValidPassword) {
       return res.status(403).json({
         status: "failed",
@@ -115,13 +128,23 @@ exports.getMe = async (req, res) => {
 };
 
 //**user**/
-//userFindByEmailController
-module.exports.userFindByEmailController = async (req, res) => {
+//createUserController
+module.exports.createUserController = async (req, res) => {
   try {
     const email = req.params.email;
-    const currentUser = req.body;
-    console.log(email, currentUser);
-    const user = await userService.userFindByEmailService(email, currentUser);
+    const userDoc = req.body;
+    const userExists = await userService.userFindByEmailService(email);
+    if (userExists) {
+     return res.status(500).json({
+        status: "failed",
+        error: `already created account by this email- ${email}`,
+      });
+    }
+    const userCreatedSuccessfully = await userService.signupService(userDoc)
+     res.status(200).json({
+       status: "failed",
+       error: `cannout find user by this ${email}`,
+     });
   } catch (error) {
     res.status(500).json({
       status: "failed",
@@ -150,12 +173,10 @@ module.exports.confirmationToken = async (req, res) => {
     user.confirmationToken = undefined;
     user.confirmationTokenExpired = undefined;
     user.save({ validateBeforeSave: false });
-    res
-      .status(200)
-      .json({
-        status: "success",
-        message: "Yeeh! your account is now active.",
-      });
+    res.status(200).json({
+      status: "success",
+      message: "Yeeh! your account is now active.",
+    });
   } catch (error) {
     res.status(500).json({
       status: "failed",

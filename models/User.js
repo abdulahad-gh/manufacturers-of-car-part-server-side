@@ -5,10 +5,18 @@ const crypto = require('crypto')
 
 const userSchema = mongoose.Schema(
   {
+ name:{
+  type: String,
+  unique:true,
+  lowercase:true,
+  trim:true
+
+ },
  email:{
   type: String,
+  required:[true,"please provide a email!"],
   validate:[validator.isEmail,"please, provide a valid email"],
-  unique:[true,"already created account by this{VALUE} email!"],
+  unique:true,
   lowercase:true,
   trim:true
 

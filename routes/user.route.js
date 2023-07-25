@@ -5,11 +5,10 @@ const verifyToken = require("../middleware/verifyToken")
 
 // Route.use(verifyToken)
 
-Route.post('/signup',userController.signupController)
 Route.post('/signup/confirmation/:token',userController.confirmationToken)
 Route.post('/signin',userController.signinController)
 Route.get('/me',verifyToken,userController.getMe)
 
-Route.put('/:email',userController.userFindByEmailController)
+Route.put('/:email',userController.signupController)
 
 module.exports=Route

@@ -13,6 +13,7 @@ const brandRoutes = require('./routes/brand.routes')
 const storeRoutes = require('./routes/store.routes')
 const stockRoutes = require('./routes/stock.routes')
 const userRoutes = require('./routes/user.route')
+const reviewRoutes = require('./routes/review.route')
 
 
 //middlewares
@@ -26,6 +27,7 @@ app.use('/api/v1/brand',brandRoutes)
 app.use('/api/v1/store',storeRoutes)
 app.use('/api/v1/stock',stockRoutes)
 app.use('/api/v1/user',userRoutes)
+app.use('/api/v1/review',reviewRoutes)
 
 
 // const transporter = nodemailer.createTransport({

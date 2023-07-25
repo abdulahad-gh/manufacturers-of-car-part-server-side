@@ -51,7 +51,7 @@ exports.getAllPartService = async (filters, queries) => {
 
   ])
 
-  return { data };
+  return  data;
 };
 
 //getOnePartService//
