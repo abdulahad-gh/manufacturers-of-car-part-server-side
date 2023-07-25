@@ -58,17 +58,7 @@ exports.getAllPartService = async (filters, queries) => {
 exports.getOnePartService = async (id) => {
   // const data = await Part.find({ _id: id }).populate('brand.id');
   const data = await Part.aggregate([
-    {  $match: { _id: new ObjectId(id) } },
-    {
-      $lookup:
-      {
-        from:"brands",
-        localField:"brand.name",
-        foreignField:"name",
-        as:"brandDetails"
-
-      }
-    }
+    {  $match: { _id: new ObjectId(id) } }
   ]);
   // console.log(data);
   return data;
