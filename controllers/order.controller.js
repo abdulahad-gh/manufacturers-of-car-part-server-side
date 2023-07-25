@@ -39,3 +39,21 @@ exports.getAllOrderByEmail = async(req,res)=>{
         })
     }
 }
+
+//deleteOrderById
+exports.deleteOrderById = async(req,res)=>{
+    try {
+        const id = req.params.id
+        const data = await orderServices.deleteOrderById(id)
+        console.log(data)
+        res.status(200).json({
+            status:"success",
+            message:"successfully deleted order "
+        })
+    } catch (error) {
+        res.status(400).json({
+            status:"failed",
+            error:error.message
+        })
+    }
+}
