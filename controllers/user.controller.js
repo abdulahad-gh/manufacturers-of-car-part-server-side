@@ -209,3 +209,28 @@ module.exports.checkAdmin = async (req, res) => {
     });
   }
 };
+
+
+//updateUserInfo
+module.exports.updateUserInfo = async (req, res) => {
+  try {
+    const email = req.params.email
+    const update = await userService.updateUserInfo(email)
+    console.log(update,'194 l')
+    if(update[0]){
+      return   res.status(403).json({
+        status: false,
+        error: "data cann't update!!"
+      });
+    }
+    res.status(200).json({
+      status: true,
+      message: "successfully updated data.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "failed",
+      error: error.message,
+    });
+  }
+};
