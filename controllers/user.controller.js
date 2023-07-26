@@ -15,7 +15,7 @@ module.exports.signupController = async (req, res) => {
     //     error: `already created account by this email- ${email}`,
     //   });
     // }
-    const userCreatedSuccessfully = await userService.signupService(userDoc)
+    const userCreatedSuccessfully = await userService.signupService(email,userDoc)
     // console.log(token)
     // data.save({validateBeforeSave:false})
     // const msgData = {
@@ -35,7 +35,7 @@ module.exports.signupController = async (req, res) => {
       const token = generateToken(userCreatedSuccessfully)
       res
       .status(200)
-      .json({ status: "success", message: "successfully signup.",token});
+      .json({ status: "success", message: "successfully signup.",data:{userCreatedSuccessfully,token}});
     // userCreatedSuccessfully.comparePassword('11','#dfd')
     // data.save({ validateBeforeSave: false });
     // res
@@ -191,14 +191,13 @@ module.exports.checkAdmin = async (req, res) => {
   try {
     const email = req.params.email
     const isAdmin = await userService.checkAdmin(email)
-    console.log(isAdmin,'line from 194')
-    if(!isAdmin[0]?.role !== "admin"){
+    console.log(isAdmin,'194 l')
+    if(isAdmin[0].role !== "admin"){
       return   res.status(403).json({
         status: false,
         error: "you don't have permission to access this data"
       });
     }
-
     res.status(200).json({
       status: true,
       message: "you have right to access",

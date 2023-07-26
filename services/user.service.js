@@ -2,10 +2,16 @@ const User = require("../models/User")
 const token = require('../utils/token')
 
 //signupService
-module.exports.signupService = async(userDoc)=>{
+module.exports.signupService = async(email,userDoc)=>{
+    const filter = {email}
+    const updateDoc = {
+        $set:userDoc
+    }
+    const options = {upsert:true}
+    const result = await User.findOneAndUpdate(filter,updateDoc,options)
+
     
-   const user = await User.create(userDoc)
-    return user
+    return result
 }
 
 
@@ -29,6 +35,6 @@ module.exports.confirmationTokenService = async(token)=>{
 
 //checkAdminService
 module.exports.checkAdmin = async(email)=>{
-    const user = await User.findOne({email})
+    const user = await User.find({email})
     return user
 }

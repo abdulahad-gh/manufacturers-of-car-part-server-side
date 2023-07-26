@@ -21,38 +21,38 @@ const userSchema = mongoose.Schema(
   trim:true
 
  },
-    password: {
-      type: String,
-      validate: {
-        validator: async (value) => {
-          return await validator.isStrongPassword(value);
-        },
-        message: "password should be strong.",
-      },
-    },
-    confirmPassword: {
-      type: String,
-      validate: {
-        validator: function (value) {
-          console.log(value === this.password);
-          return value === this.password;
-        },
-        message: "password don't matched, please type again!",
-      },
-    },
-    firstName: {
-      type: String,
-      trim: true,
-      minLength: 2,
-      maxLength: 50,
-    },
-    lastName: {
-      type: String,
-      trim: true,
-      minLength: 2,
-      maxLength: 50,
-    },
-    contactNumber: String,
+    // password: {
+    //   type: String,
+    //   validate: {
+    //     validator: async (value) => {
+    //       return await validator.isStrongPassword(value);
+    //     },
+    //     message: "password should be strong.",
+    //   },
+    // },
+    // confirmPassword: {
+    //   type: String,
+    //   validate: {
+    //     validator: function (value) {
+    //       console.log(value === this.password);
+    //       return value === this.password;
+    //     },
+    //     message: "password don't matched, please type again!",
+    //   },
+    // },
+    // firstName: {
+    //   type: String,
+    //   trim: true,
+    //   minLength: 2,
+    //   maxLength: 50,
+    // },
+    // lastName: {
+    //   type: String,
+    //   trim: true,
+    //   minLength: 2,
+    //   maxLength: 50,
+    // },
+    phoneNumber: String,
     address: {
       type: String,
       maxLength: 100,
@@ -97,11 +97,11 @@ const userSchema = mongoose.Schema(
   //   next();
   // });
 
-  userSchema.methods.comparePassword =  function (password, hashPass) {
-    const isValidPass = bcrypt.compareSync(password,hashPass)
+  // userSchema.methods.comparePassword =  function (password, hashPass) {
+  //   const isValidPass = bcrypt.compareSync(password,hashPass)
 
-    return isValidPass;
-  };
+  //   return isValidPass;
+  // };
 
 
 
