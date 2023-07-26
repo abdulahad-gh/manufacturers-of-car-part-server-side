@@ -215,7 +215,8 @@ module.exports.checkAdmin = async (req, res) => {
 module.exports.updateUserInfo = async (req, res) => {
   try {
     const email = req.params.email
-    const update = await userService.updateUserInfo(email)
+    const updateData = req.body
+    const update = await userService.updateUserInfo(email,updateData)
     console.log(update,'194 l')
     if(update[0]){
       return   res.status(403).json({

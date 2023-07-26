@@ -38,3 +38,16 @@ module.exports.checkAdmin = async(email)=>{
     const user = await User.find({email})
     return user
 }
+
+//updateUserInfo
+module.exports.updateUserInfo = async(email,data)=>{
+    const filter = {email}
+    const updateData = {
+        $set:data
+    }
+    const options = {
+        upsert:true
+    }
+    const user = await User.findOneAndUpdate(filter,updateData,options)
+    return user
+}
