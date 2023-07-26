@@ -191,11 +191,17 @@ module.exports.checkAdmin = async (req, res) => {
   try {
     const email = req.params.email
     const isAdmin = await userService.checkAdmin(email)
-    console.log(isAdmin)
+    console.log(isAdmin,'line from 194')
+    if(!isAdmin[0]?.role !== "admin"){
+      return   res.status(403).json({
+        status: false,
+        error: "you don't have permission to access this data"
+      });
+    }
 
     res.status(200).json({
-      status: "success",
-      message: "Yeeh! your account is now active.",
+      status: true,
+      message: "you have right to access",
     });
   } catch (error) {
     res.status(500).json({

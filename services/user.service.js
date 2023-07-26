@@ -26,3 +26,9 @@ module.exports.confirmationTokenService = async(token)=>{
     const user = await User.find({confirmationToken:token })
     return user
 }
+
+//checkAdminService
+module.exports.checkAdmin = async(email)=>{
+    const user = await User.findOne({email})
+    return user
+}
