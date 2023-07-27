@@ -260,3 +260,29 @@ module.exports.getAllUser = async (req, res) => {
     });
   }
 };
+
+
+//makeAdmin
+module.exports.makeAdmin = async (req, res) => {
+  try {
+    const email = req.params.eamil
+    const user = await userService.makeAdmin()
+    console.log(user,'194 l')
+    if(!user){
+      return   res.status(403).json({
+        status: false,
+        error: `can't find user with this ${email} email. !!`
+      });
+    }
+    res.status(200).json({
+      status: true,
+      message: "admin reqest successfull.",
+      data:user
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "failed",
+      error: error.message,
+    });
+  }
+};
