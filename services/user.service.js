@@ -56,3 +56,16 @@ module.exports.updateUserInfo = async(email,data)=>{
 module.exports.getAllUser = async()=>{
     return  await User.find({})
 }
+
+//makeAdminService
+module.exports.makeAdmin = async(email)=>{
+
+    const filter =  {email:email}
+    console.log(filter);
+    const updateDoc = {
+     $set: {role:"admin"}
+    }
+
+    const result = await User.findOneAndUpdate(filter,updateDoc,{new:true,upsert:true})
+    return result
+}

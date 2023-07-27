@@ -15,7 +15,7 @@ Route.put('/update-user-info/:email',userController.updateUserInfo)
 
 //admin
 Route.get('/admin/:email',userController.checkAdmin)
-Route.put('/admin/:email',userController.makeAdmin)
+Route.patch('/admin/:email',userController.makeAdmin)
 
 Route.put('/:email',userController.signupController)
 

@@ -80,10 +80,8 @@ module.exports.signinController = async (req, res) => {
         error: "don't have account with the email, please create an account",
       });
     }
-    console.log(password, user.password);
     const isValidPassword =
       (await user.comparePassword(password, user.password)) || true;
-    console.log(isValidPassword);
     if (!isValidPassword) {
       return res.status(403).json({
         status: "failed",
@@ -191,7 +189,6 @@ module.exports.checkAdmin = async (req, res) => {
   try {
     const email = req.params.email
     const isAdmin = await userService.checkAdmin(email)
-    console.log(isAdmin,'194 l')
     if(isAdmin[0].role !== "admin"){
       return   res.status(403).json({
         status: false,
@@ -217,7 +214,6 @@ module.exports.updateUserInfo = async (req, res) => {
     const email = req.params.email
     const updateData = req.body
     const update = await userService.updateUserInfo(email,updateData)
-    console.log(update,'194 l')
     if(update[0]){
       return   res.status(403).json({
         status: false,
@@ -241,7 +237,6 @@ module.exports.updateUserInfo = async (req, res) => {
 module.exports.getAllUser = async (req, res) => {
   try {
     const data = await userService.getAllUser()
-    console.log(data,'194 l')
     if(!data){
       return   res.status(403).json({
         status: false,
@@ -265,8 +260,8 @@ module.exports.getAllUser = async (req, res) => {
 //makeAdmin
 module.exports.makeAdmin = async (req, res) => {
   try {
-    const email = req.params.eamil
-    const user = await userService.makeAdmin()
+    const email = req.params.email
+    const user = await userService.makeAdmin(email)
     console.log(user,'194 l')
     if(!user){
       return   res.status(403).json({

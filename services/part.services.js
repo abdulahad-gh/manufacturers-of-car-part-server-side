@@ -7,16 +7,16 @@ const  {ObjectId} = mongoose.Types
 //postPartService //
 exports.postPartService = async (data) => {
   const result = await Part.create(data);
-  console.log(result)
-  const { _id: productId, brand } = result;
-  const res = await Brand.updateOne(
-    { _id: brand.id },
-    { $push: { products: productId } },
-    { runValidators: true }
-  );
-  console.log(res);
+  //for update brand model products info array
+  // const { _id: productId, brand } = result;
+  // const res = await Brand.updateOne(
+  //   { _id: brand.id },
+  //   { $push: { products: productId } },
+  //   { runValidators: true }
+  // );
   return result;
 };
+
 //postManyDataService//
 exports.postManyDataService = async (datas) => {
   const result = await Part.create(datas);
@@ -33,6 +33,8 @@ exports.getAllPartService = async (filters, queries) => {
   // const total = await Part.countDocuments(filters);
   // const totalPage = Math.ceil((total / queries.limit));
   // return { total, totalPage, data };
+
+  //mongoose 
 
   const data = await Part.aggregate([
     {
@@ -66,6 +68,7 @@ exports.getOnePartService = async (id) => {
 
 //deleteOnePartService//
 exports.deleteOnePartService = async (id) => {
+  console.log(id,'71');
   const data = await Part.deleteOne({ _id: id });
   return data;
 };

@@ -16,16 +16,15 @@ module.exports.postFileController = (req,res)=>{
 module.exports.postPartController = async (req, res, next) => {
   try {
     const data = req.body;
-    console.log(req.body);
     const result = await partServices.postPartService(data);
     res.status(200).json({
-      success: true,
+      status: true,
       message: "successfully post a part.",
       data: result,
     });
   } catch (error) {
     res.status(404).json({
-      success: false,
+      status: false,
       message: error.message,
     });
   }
@@ -126,22 +125,23 @@ module.exports.getOnePartController = async (req, res, next) => {
 module.exports.deleteOnePartController = async (req, res, next) => {
   try {
     const { id } = req.params;
+    console.log(id);
     const data = await partServices.deleteOnePartService(id);
 
     if (!data.deletedCount) {
       return res.status(400).json({
-        success: false,
+        status: false,
         message: "Couln't find id",
       });
     }
     res.status(200).json({
-      success: true,
+      status: true,
       message: "successfully deleted a part.",
       data,
     });
   } catch (error) {
     res.status(404).json({
-      success: false,
+      status: false,
       message: error.message,
     });
   }

@@ -25,3 +25,10 @@ exports.deleteOrderById = async(id)=>{
     const result = await Order.findOneAndDelete({_id:ObjectId(id)})
     return result
 }
+
+
+//getAllOrderService
+exports.getAllOrder = async()=>{
+    const result = await Order.find({})
+    return result
+}

@@ -58,3 +58,27 @@ exports.deleteOrderById = async(req,res)=>{
         })
     }
 }
+
+//getAllOrder
+exports.getAllOrder = async(req,res)=>{
+    try {
+        const data = await orderServices.getAllOrder()
+   if(!data){
+    return res.status(400).json({
+        status:"failed",
+        error:"something went wrong!!",
+
+    })
+   }
+        res.status(200).json({
+            status:"success",
+            message:"successfully get all order",
+            data
+        })
+    } catch (error) {
+        res.status(400).json({
+            status:"failed",
+            error:error.message
+        })
+    }
+}
