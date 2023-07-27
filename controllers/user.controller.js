@@ -235,3 +235,28 @@ module.exports.updateUserInfo = async (req, res) => {
     });
   }
 };
+
+
+//getAllUser
+module.exports.getAllUser = async (req, res) => {
+  try {
+    const data = await userService.getAllUser()
+    console.log(data,'194 l')
+    if(!data){
+      return   res.status(403).json({
+        status: false,
+        error: "data can't get!!"
+      });
+    }
+    res.status(200).json({
+      status: true,
+      message: "successfully get data.",
+      data
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "failed",
+      error: error.message,
+    });
+  }
+};

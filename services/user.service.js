@@ -51,3 +51,8 @@ module.exports.updateUserInfo = async(email,data)=>{
     const user = await User.findOneAndUpdate(filter,updateData,options)
     return user
 }
+
+//getAllUserService
+module.exports.getAllUser = async()=>{
+    return  await User.find({})
+}
