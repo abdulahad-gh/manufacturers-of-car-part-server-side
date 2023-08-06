@@ -7,21 +7,13 @@ exports.createBrandController = async (req, res, next) => {
   const data = await brandService.createBrandService(brandData);
   try {
     if (!data) {
-      return res.status(400).json({
-        status: "fail",
-        message: "brand cannot created, someting went wrong...",
-      });
+      return errorResponse(res,{message:'cannot crate a brand!'})
+
     }
-    res.status(200).json({
-      status: "success",
-      message: "successfully create a brand",
-      data,
-    });
+    return successResponse(res,{message:'successfully create a brand',payload:data})
+
   } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      message: error.message,
-    });
+   next(error)
   }
 };
 
