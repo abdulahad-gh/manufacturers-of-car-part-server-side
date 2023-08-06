@@ -159,15 +159,12 @@ module.exports.checkAdmin = async (req, res,next) => {
 
 
 //updateUserInfo
-module.exports.updateUserInfo = async (req, res) => {
+module.exports.updateUserInfo = async (req, res,next) => {
   try {
     const email = req.params.email
     const user = await userService.userFindByEmailService(email)
     if(!user[0]._id){
-      return res.status(403).json({
-        status:'fail',
-        error:'cannot find user with this id'
-      })
+      return errorResponse(res,{statusCode:403,message:'cannot find user with this id'})
     }
 let updates = {}
 for(let key in req.body){
@@ -190,15 +187,9 @@ for(let key in req.body){
         error: "data cann't update!!"
       });
     }
-    res.status(200).json({
-      status: true,
-      message: "successfully updated data.",
-    });
+       return successResponse(res,{message:'successfully updated data.' })
   } catch (error) {
-    res.status(500).json({
-      status: "failed",
-      error: error.message,
-    });
+   next(error)
   }
 };
 
