@@ -104,21 +104,13 @@ module.exports.deleteOnePartController = async (req, res, next) => {
     const data = await partServices.deleteOnePartService(id);
 
     if (!data.deletedCount) {
-      return res.status(400).json({
-        status: false,
-        message: "Couln't find id",
-      });
+      return errorResponse(res,{message:'cannot delete any part, with this id, plase provide a valid part id!'})
+
     }
-    res.status(200).json({
-      status: true,
-      message: "successfully deleted a part.",
-      data,
-    });
+    return successResponse(res,{message:'successfully deleted one part',payload:data})
+
   } catch (error) {
-    res.status(404).json({
-      status: false,
-      message: error.message,
-    });
+    next(error)
   }
 };
 //patchOnePartController//
