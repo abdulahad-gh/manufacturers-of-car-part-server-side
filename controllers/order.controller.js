@@ -3,13 +3,11 @@ const orderServices = require('../services/order.service')
 
 
 //orderAddController
-exports.addOrder = async(req,res)=>{
+exports.addOrder = async(req,res,next)=>{
 try {
     const orderInfo = req.body
     const data = await orderServices.addOrder(orderInfo)
     return successResponse(res,{message:'successfully add order list',payload:data})
-
-
 } catch (error) {
    next(error)
 }
@@ -17,21 +15,15 @@ try {
 
 
 //getAllOrderController
-exports.getAllOrderByEmail = async(req,res)=>{
+exports.getAllOrderByEmail = async(req,res,next)=>{
     try {
         const email = req.params.email
         const data = await orderServices.getAllOrderByEmail(email)
         console.log(data)
-        res.status(200).json({
-            status:"success",
-            message:"successfully order ",
-            data
-        })
+        return successResponse(res,{message:'successfully get all order',payload:data})
+
     } catch (error) {
-        res.status(400).json({
-            status:"failed",
-            error:error.message
-        })
+       next(error)
     }
 }
 
