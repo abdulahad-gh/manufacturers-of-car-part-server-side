@@ -31,16 +31,11 @@ exports.getBrandController = async (req, res, next) => {
   const data = await brandService.getBrandService();
   try {
     if (!data) {
-      return res.status(400).json({
-        status: "fail",
-        message: "brand data can't get, someting went wrong...",
-      });
+ return errorResponse(res,{message:'cannot get all brand!'})
+
     }
-    res.status(200).json({
-      status: "success",
-      message: "successfully get brand",
-      data,
-    });
+    return successResponse(res,{message:'successfully get all brand',payload:data})
+
   } catch (error) {
     next(error)
   }
