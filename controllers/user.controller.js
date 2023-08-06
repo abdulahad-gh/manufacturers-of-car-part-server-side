@@ -101,27 +101,19 @@ exports.getMe = async (req, res,next) => {
 
 //**user**/
 //createUserController
-module.exports.createUserController = async (req, res) => {
+module.exports.createUserController = async (req, res,next) => {
   try {
     const email = req.params.email;
     const userDoc = req.body;
     const userExists = await userService.userFindByEmailService(email);
     if (userExists) {
-     return res.status(500).json({
-        status: "failed",
-        error: `already created account by this email- ${email}`,
-      });
+      return errorResponse(res,{statusCode:403,message:`already created account by this email- ${email}`})
     }
-    const userCreatedSuccessfully = await userService.signupService(userDoc)
-     res.status(200).json({
-       status: "failed",
-       error: `cannout find user by this ${email}`,
-     });
+    const data = await userService.signupService(userDoc)
+    return successResponse(res,{message:'successfully created a user',payload:data})
+
   } catch (error) {
-    res.status(500).json({
-      status: "failed",
-      error: error.message,
-    });
+    next(error)
   }
 };
 //confirmationToken
