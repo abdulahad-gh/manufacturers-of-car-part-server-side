@@ -28,21 +28,15 @@ exports.getAllOrderByEmail = async(req,res,next)=>{
 }
 
 //deleteOrderById
-exports.deleteOrderById = async(req,res)=>{
+exports.deleteOrderById = async(req,res,next)=>{
     try {
         const id = req.params.id
         console.log(id)
         const data = await orderServices.deleteOrderById(id)
-        console.log(data)
-        res.status(200).json({
-            status:"success",
-            message:"successfully deleted order "
-        })
+        return successResponse(res,{message:'successfully deleted order',payload:data})
+       
     } catch (error) {
-        res.status(400).json({
-            status:"failed",
-            error:error.message
-        })
+      next(error)
     }
 }
 
