@@ -57,52 +57,34 @@ module.exports.signupController = async (req, res,next) => {
  * generate token
  * res user data & token
  */
-module.exports.signinController = async (req, res) => {
+module.exports.signinController = async (req, res,next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(403).json({
-        status: "failed",
-        error: "please provide your credential",
-      });
+           return errorResponse(res,{statusCode:403,message:'plase provide credential!'})
+
     }
 
     const data = await userService.userFindByEmailService(email);
     const user = await data[0];
     console.log(user);
     if (!user) {
-      return res.status(402).json({
-        status: "failed",
-        error: "don't have account with the email, please create an account",
-      });
+      return errorResponse(res,{statusCode:403,message:"don't have account with the email, please create an account"})
     }
     const isValidPassword =
       (await user.comparePassword(password, user.password)) || true;
     if (!isValidPassword) {
-      return res.status(403).json({
-        status: "failed",
-        error: "wrong  password, try again with correct credential",
-      });
+      return errorResponse(res,{statusCode:403,message:'wrong  password, try again with correct credential'})
     }
     if (user.status !== "active") {
-      return res.status(403).json({
-        status: "failed",
-        error:
-          "your account isn't active, please check your email to active your account.",
-      });
+      return errorResponse(res,{statusCode:403,message:"your account isn't active, please check your email to active your account."})
     }
     const token = generateToken(user);
-    console.log(token,'99');
-    res.status(200).json({
-      status: "success",
-      message: "successfully signin.",
-      data: { user, token },
-    });
+    
+    return successResponse(res,{message:'successfully created a store',payload:{token,user}})
+
   } catch (error) {
-    res.status(500).json({
-      status: "failed",
-      error: error.message,
-    });
+  next(error)
   }
 };
 
