@@ -1,4 +1,5 @@
 const brandService = require("../services/brand.service");
+const { successResponse } = require("./response.controller");
 
 //createBrand
 exports.createBrandController = async (req, res, next) => {
@@ -61,11 +62,7 @@ exports.updateBrandByIdController = async (req, res, next) => {
         error: "brand data can't update with this id, someting went wrong...",
       });
     }
-    res.status(200).json({
-      status: "success",
-      message: "successfully updated the brand",
-      data,
-    });
+   return successResponse(res,{message:'successfully updated',payload:data})
   } catch (error) {
     res.status(400).json({
       status: "fail",
