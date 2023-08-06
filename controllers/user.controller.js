@@ -89,19 +89,13 @@ module.exports.signinController = async (req, res,next) => {
 };
 
 //getMeCpntroller
-exports.getMe = async (req, res) => {
+exports.getMe = async (req, res,next) => {
   try {
-    console.log(req.user);  
     const user = await userService.userFindByEmailService(req?.user?.email);
-    res.status(200).json({
-      status: "success",
-      data: user,
-    });
+    return successResponse(res,{message:'successfully created a store',payload:data})
+
   } catch (error) {
-    res.status(500).json({
-      status: "failed",
-      error: error.message,
-    });
+  next(error)
   }
 };
 
