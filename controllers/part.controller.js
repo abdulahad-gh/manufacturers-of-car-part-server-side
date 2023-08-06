@@ -33,20 +33,13 @@ module.exports.postManyDataController = async (req, res, next) => {
               console.log(err)
               return
        }
-       const result = await partServices.postManyDataService(data)
+       const data = await partServices.postManyDataService(data)
 
   });
-//     console.log(data, "hi");
-//     res.status(200).json({
-//       success: true, 
-//       message: "successfully post all parts.",
-//       data: result,,
-//     });
+  return successResponse(res,{message:'successfully created many part',payload:data})
+
   } catch (error) {
-    res.status(404).json({
-      success: false,
-      message: error.message,
-    });
+    next(error)
   }
 };
 
@@ -85,16 +78,10 @@ module.exports.getAllPartController = async (req, res, next) => {
     }
 
     const data = await partServices.getAllPartService(filters,queries);
-    res.status(200).json({
-      success: true,
-      message: "successfully get all parts.",
-      data,
-    });
+    return successResponse(res,{message:'successfully get all part',payload:data})
+
   } catch (error) {
-    res.status(404).json({
-      success: false,
-      message: error.message,
-    });
+   next(error)
   }
 };
 //getOnePartController//
