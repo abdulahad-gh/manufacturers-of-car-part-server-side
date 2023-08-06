@@ -17,16 +17,10 @@ module.exports.postPartController = async (req, res, next) => {
   try {
     const data = req.body;
     const result = await partServices.postPartService(data);
-    res.status(200).json({
-      status: true,
-      message: "successfully post a part.",
-      data: result,
-    });
+    return successResponse(res,{message:'successfully create a part',payload:data})
+
   } catch (error) {
-    res.status(404).json({
-      status: false,
-      message: error.message,
-    });
+    next(error)
   }
 };
 
