@@ -14,7 +14,8 @@ const storeRoutes = require('./routes/store.routes')
 const stockRoutes = require('./routes/stock.routes')
 const userRoutes = require('./routes/user.route')
 const reviewRoutes = require('./routes/review.route')
-const orderRoutes = require('./routes/order.route')
+const orderRoutes = require('./routes/order.route');
+const { errorResponse } = require('./controllers/response.controller');
 
 
 //middlewares
@@ -334,6 +335,16 @@ app.use('/api/v1/order',orderRoutes)
 // run().catch(console.dir)
 app.get('/', (req, res) => {
     res.send('manufacturers server ready'.yellow)
+})
+
+//client reqest error handle
+app.use((req,res,next)=>{
+next(new Error('route not found!!!'))
+})
+
+//all server error handle
+app.use((err,req,res,next)=>{
+    return errorResponse(res,{statusCode:err.status,message:err.message})
 })
 
 

@@ -17,13 +17,8 @@ module.exports.signupService = async(email,userDoc)=>{
 
 //userFindByEmailService
 module.exports.userFindByEmailService = async(email)=>{
+
     let user = await User.find({email })
-    if(user[0]){
-        user = user[0]
-    }else{
-        user = ""
-        user = false
-    }
     return user
 }
 
@@ -40,15 +35,14 @@ module.exports.checkAdmin = async(email)=>{
 }
 
 //updateUserInfo
-module.exports.updateUserInfo = async(email,data)=>{
+module.exports.updateUserInfo = async(email,updateDoc)=>{
     const filter = {email}
-    const updateData = {
-        $set:data
-    }
     const options = {
-        upsert:true
+    new:true,
+    runvalidators:true
     }
-    const user = await User.findOneAndUpdate(filter,updateData,options)
+
+    const user = await User.findOneAndUpdate(filter,updateDoc,options)
     return user
 }
 

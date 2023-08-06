@@ -1,15 +1,14 @@
 const app = require("./app");
 const mongoose = require("mongoose");
 const colors = require("colors");
+const { port } = require("./secret");
+const connectDb = require("./utils/db");
 
-//database connection
-mongoose.connect(process.env.DATABASE_LIVE || process.env.DATABASE_LOCAL).then(() => {
-  console.log("database connected successfully".green);
-});
 
 //server
-const port = process.env.PORT || 8080;
+app.listen(port,async () => {
+  console.log("hello hi from manufacturer-car-part", port);
 
-app.listen(port, () => {
-  console.log("hello hi from manufacturer  f", port);
+//database connection
+await connectDb()
 });

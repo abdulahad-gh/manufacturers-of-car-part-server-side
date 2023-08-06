@@ -33,6 +33,7 @@ module.exports.signupController = async (req, res) => {
       //   });
       // }
       const token = generateToken(userCreatedSuccessfully)
+      console.log(token,'36');
       res
       .status(200)
       .json({ status: "success", message: "successfully signup.",data:{userCreatedSuccessfully,token}});
@@ -96,6 +97,7 @@ module.exports.signinController = async (req, res) => {
       });
     }
     const token = generateToken(user);
+    console.log(token,'99');
     res.status(200).json({
       status: "success",
       message: "successfully signin.",
@@ -112,6 +114,7 @@ module.exports.signinController = async (req, res) => {
 //getMeCpntroller
 exports.getMe = async (req, res) => {
   try {
+    console.log(req.user);  
     const user = await userService.userFindByEmailService(req?.user?.email);
     res.status(200).json({
       status: "success",
@@ -212,8 +215,28 @@ module.exports.checkAdmin = async (req, res) => {
 module.exports.updateUserInfo = async (req, res) => {
   try {
     const email = req.params.email
-    const updateData = req.body
-    const update = await userService.updateUserInfo(email,updateData)
+    const user = await userService.userFindByEmailService(email)
+    if(!user[0]._id){
+      return res.status(403).json({
+        status:'fail',
+        error:'cannot find user with this id'
+      })
+    }
+let updates = {}
+for(let key in req.body){
+  if(['name','socialLinks','education','institution','phoneNumber','address'].includes(key)){
+    updates[key] = req.body[key]
+  }
+  else if(['email'].includes(key)){
+      res.status(404).json({
+        error:'you cannot update your email'
+      })
+  }
+
+}
+    
+
+    const update = await userService.updateUserInfo(email,updates)
     if(update[0]){
       return   res.status(403).json({
         status: false,
