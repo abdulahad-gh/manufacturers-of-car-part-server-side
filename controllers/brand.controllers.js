@@ -1,5 +1,5 @@
 const brandService = require("../services/brand.service");
-const { successResponse } = require("./response.controller");
+const { successResponse, errorResponse } = require("./response.controller");
 
 //createBrand
 exports.createBrandController = async (req, res, next) => {
@@ -42,10 +42,7 @@ exports.getBrandController = async (req, res, next) => {
       data,
     });
   } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      message: error.message,
-    });
+    next(error)
   }
 };
 
@@ -57,17 +54,11 @@ exports.updateBrandByIdController = async (req, res, next) => {
   const data = await brandService.updateBrandByIdService(id,updateDoc);
   try {
     if (!data) {
-      return res.status(400).json({
-        status: "fail",
-        error: "brand data can't update with this id, someting went wrong...",
-      });
+      return errorResponse(res,{message:'cannot find any brand, with this id, plase provide a valid brand id!'})
     }
    return successResponse(res,{message:'successfully updated',payload:data})
   } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      message: error.message,
-    });
+    next(error)
   }
 };
 
