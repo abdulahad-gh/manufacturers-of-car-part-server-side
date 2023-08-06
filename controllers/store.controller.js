@@ -1,59 +1,39 @@
-const storeServices =  require('../services/store.services')
-
+const storeServices = require("../services/store.services");
 
 //createStoreController
-exports.createStoreController = async (req,res)=>{
-try{
-    const storeDoc = req.body
+exports.createStoreController = async (req, res) => {
+  try {
+    const storeDoc = req.body;
     const data = await storeServices.createStoreService(storeDoc);
-   res.status(200).json({
-    status:'success',
-    message:'successfully create a store.'
-   })
-}catch(error){
-res.status(400).json({
-    status:'fail',
-    error:error.message
-})
-}
-}
-
+    return successResponse(res, {
+      message: "successfully created a store",
+      payload: data,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 
 //getAllStoreController
-exports.getAllStoreController = async (req,res)=>{
-try{
+exports.getAllStoreController = async (req, res,next) => {
+  try {
     const data = await storeServices.getAllStoreService();
-   res.status(200).json({
-    status:'success',
-    message:'successfully get all store.',
-    data
+    return successResponse(res,{message:'successfully all store',payload:data})
 
-   })
-}catch(error){
-res.status(400).json({
-    status:'fail',
-    error:error.message
-})
-}
-}
-
+  } catch (error) {
+   next(error)
+  }
+};
 
 //updateStoreByIdController
-exports.updateStoreByIdController = async (req,res)=>{
-try{
-    const {id}  =req.params
-    const updateStoreDoc = req.body
-    const data = await storeServices.updateStoreByIdService(id,updateStoreDoc);
-   res.status(200).json({
-    status:'success',
-    message:'successfully updated a  store.',
-    data
+exports.updateStoreByIdController = async (req, res,next) => {
+  try {
+    const { id } = req.params;
+    const updateStoreDoc = req.body;
+    const data = await storeServices.updateStoreByIdService(id, updateStoreDoc);
+    return successResponse(res,{message:'successfully updated a store',payload:data})
 
-   })
-}catch(error){
-res.status(400).json({
-    status:'fail',
-    error:error.message
-})
-}
-}
+  } catch (error) {
+   next(error)
+  }
+};

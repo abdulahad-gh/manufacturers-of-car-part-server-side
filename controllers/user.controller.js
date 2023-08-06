@@ -3,7 +3,7 @@ const userService = require("../services/user.service");
 const { generateToken } = require("../utils/token");
 
 //signupController
-module.exports.signupController = async (req, res) => {
+module.exports.signupController = async (req, res,next) => {
   try {
     const email = req.params.email;
     const userDoc = req.body;
@@ -33,20 +33,15 @@ module.exports.signupController = async (req, res) => {
       //   });
       // }
       const token = generateToken(userCreatedSuccessfully)
-      console.log(token,'36');
-      res
-      .status(200)
-      .json({ status: "success", message: "successfully signup.",data:{userCreatedSuccessfully,token}});
+      return successResponse(res,{message:'successfully created a store',payload:{userCreatedSuccessfully,token}})
+
     // userCreatedSuccessfully.comparePassword('11','#dfd')
     // data.save({ validateBeforeSave: false });
     // res
     //   .status(200)
     //   .json({ status: "success", message: "successfully signup." });
   } catch (error) {
-    res.status(500).json({
-      status: "failed",
-      error: error.message,
-    });
+  next(error)
   }
 };
 
