@@ -143,25 +143,17 @@ module.exports.confirmationToken = async (req, res,next) => {
 
 
 //checkAdmin
-module.exports.checkAdmin = async (req, res) => {
+module.exports.checkAdmin = async (req, res,next) => {
   try {
     const email = req.params.email
     const isAdmin = await userService.checkAdmin(email)
     if(isAdmin[0].role !== "admin"){
-      return   res.status(403).json({
-        status: false,
-        error: "you don't have permission to access this data"
-      });
+      return errorResponse(res,{statusCode:403,message:"you don't have permission to access this data"})
     }
-    res.status(200).json({
-      status: true,
-      message: "you have right to access",
-    });
+    return successResponse(res,{message:'you have right to access'})
+
   } catch (error) {
-    res.status(500).json({
-      status: "failed",
-      error: error.message,
-    });
+   next(error)
   }
 };
 
