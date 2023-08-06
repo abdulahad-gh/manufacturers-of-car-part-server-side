@@ -1,18 +1,12 @@
 const reviewService = require('../services/review.service')
 
-exports.review = async(req,res)=>{
+exports.review = async(req,res,next)=>{
     try {
         const data = await reviewService.review()
-        res.status(200).json({
-            status:'success',
-            message:'sucessfully get all data',
-            data
-        })
+        return successResponse(res,{message:'successfully get all review',payload:data})
+
         
     } catch (error) {
-        res.status(400).json({
-            status:'failed',
-            error:error.message
-        })
+       next(error)
     }
 }
