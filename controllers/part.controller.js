@@ -120,22 +120,14 @@ module.exports.patchOnePartController = async (req, res, next) => {
     const checkIdExists = await checkIdExistsMiddleware.checkIdExists(id);
     console.log(checkIdExists);
     if (!checkIdExists) {
-      return res.status(404).json({
-        success: false,
-        message: "Couldn't find id",
-      });
+      return errorResponse(res,{message:'cannot update any part, with this id, plase provide a valid part id!'})
+
     }
     const data = await partServices.patchOnePartService(id, req.body);
-    res.status(200).json({
-      success: true,
-      message: "successfully updated a part.",
-      data,
-    });
+    return successResponse(res,{message:'successfully upadted a part',payload:data})
+
   } catch (error) {
-    res.status(404).json({
-      success: false,
-      message: error.message,
-    });
+    next(error)
   }
 };
 
