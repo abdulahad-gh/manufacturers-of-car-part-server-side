@@ -56,20 +56,12 @@ exports.deleteBrandByIdController = async (req, res, next) => {
   const data = await brandService.deleteBrandByIdService(id);
   try {
     if (!data) {
-      return res.status(400).json({
-        status: "fail",
-        error: "brand data can't delete with this id, someting went wrong...",
-      });
+      return errorResponse(res,{message:'cannot delete any brand, with this id, plase provide a valid brand id!'})
+
     }
-    res.status(200).json({
-      status: "success",
-      message: "successfully deleted the brand",
-      data,
-    });
+    return successResponse(res,{message:'successfully deleted brand',payload:data})
+
   } catch (error) {
-    res.status(400).json({
-      status: "fail",
-      message: error.message,
-    });
+   next(error)
   }
 };
