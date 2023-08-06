@@ -117,35 +117,27 @@ module.exports.createUserController = async (req, res,next) => {
   }
 };
 //confirmationToken
-module.exports.confirmationToken = async (req, res) => {
+module.exports.confirmationToken = async (req, res,next) => {
   try {
     const { token } = req.params;
     const user = await userService.confirmationTokenService(token);
     if (!user) {
-      return res
-        .status(401)
-        .json({ status: "fail", error: "your token is invalid" });
+      return errorResponse(res,{statusCode:403,message:'your token is invalid'})
     }
 
     const expiredToken = new Date().getDate() > user.confirmationTokenExpired;
     if (expiredToken) {
-      return res
-        .status(401)
-        .json({ status: "fail", error: "your token is expired" });
+      return errorResponse(res,{statusCode:401,message:'your token is expired'})
     }
     user.status = "active";
     user.confirmationToken = undefined;
     user.confirmationTokenExpired = undefined;
     user.save({ validateBeforeSave: false });
-    res.status(200).json({
-      status: "success",
-      message: "Yeeh! your account is now active.",
-    });
+    return successResponse(res,{message:'Yeeh! your account is now active.'})
+
+
   } catch (error) {
-    res.status(500).json({
-      status: "failed",
-      error: error.message,
-    });
+   next(error)
   }
 };
 
