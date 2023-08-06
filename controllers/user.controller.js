@@ -195,20 +195,14 @@ for(let key in req.body){
 
 
 //getAllUser
-module.exports.getAllUser = async (req, res) => {
+module.exports.getAllUser = async (req, res,next) => {
   try {
     const data = await userService.getAllUser()
     if(!data){
-      return   res.status(403).json({
-        status: false,
-        error: "data can't get!!"
-      });
+      return errorResponse(res,{message:"data can't get!!"})
     }
-    res.status(200).json({
-      status: true,
-      message: "successfully get data.",
-      data
-    });
+    return successResponse(res,{message:'successfully get all user',payload:data})
+
   } catch (error) {
     res.status(500).json({
       status: "failed",
