@@ -204,35 +204,22 @@ module.exports.getAllUser = async (req, res,next) => {
     return successResponse(res,{message:'successfully get all user',payload:data})
 
   } catch (error) {
-    res.status(500).json({
-      status: "failed",
-      error: error.message,
-    });
+ next(error)
   }
 };
 
 
 //makeAdmin
-module.exports.makeAdmin = async (req, res) => {
+module.exports.makeAdmin = async (req, res,next) => {
   try {
     const email = req.params.email
     const user = await userService.makeAdmin(email)
     console.log(user,'194 l')
     if(!user){
-      return   res.status(403).json({
-        status: false,
-        error: `can't find user with this ${email} email. !!`
-      });
+      return errorResponse(res,{statusCode:403,message:`can't find user with this ${email} email. !!`})
     }
-    res.status(200).json({
-      status: true,
-      message: "admin reqest successfull.",
-      data:user
-    });
+    return successResponse(res,{message:'successfully get one part',payload:user})
   } catch (error) {
-    res.status(500).json({
-      status: "failed",
-      error: error.message,
-    });
+  next(error)
   }
 };

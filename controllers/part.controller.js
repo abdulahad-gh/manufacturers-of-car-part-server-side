@@ -3,11 +3,11 @@ const checkIdExistsMiddleware = require("../middleware/checkIdExists");
 const partServices = require("../services/part.services");
 
 //fileUploderController
-module.exports.postFileController = (req,res)=>{
+module.exports.postFileController = (req,res,next)=>{
   try{
     res.status(200).json(req.file)
   }catch(error){
-
+next(error)
   }
 
 }
@@ -33,10 +33,10 @@ module.exports.postManyDataController = async (req, res, next) => {
               console.log(err)
               return
        }
-       const data = await partServices.postManyDataService(data)
+       const datas = await partServices.postManyDataService(data)
 
   });
-  return successResponse(res,{message:'successfully created many part',payload:data})
+  return successResponse(res,{message:'successfully created many part',payload:datas})
 
   } catch (error) {
     next(error)
