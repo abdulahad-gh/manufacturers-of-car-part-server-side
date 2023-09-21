@@ -7,7 +7,10 @@ exports.addOrder = async(req,res,next)=>{
 try {
     const orderInfo = req.body
     const data = await orderServices.addOrder(orderInfo)
-    return successResponse(res,{message:'successfully add order list',payload:data})
+    if(!data){
+        return res.status(400).json({success:false,message:'already exists order'})
+    }
+    return res.status(200).json({message:'successfully add order list',payload:data})
 } catch (error) {
    next(error)
 }
@@ -20,7 +23,7 @@ exports.getAllOrderByEmail = async(req,res,next)=>{
         const email = req.params.email
         const data = await orderServices.getAllOrderByEmail(email)
         console.log(data)
-        return successResponse(res,{message:'successfully get all order',payload:data})
+        return res.status(200).json({message:'successfully get all order',payload:data})
 
     } catch (error) {
        next(error)
@@ -33,7 +36,7 @@ exports.deleteOrderById = async(req,res,next)=>{
         const id = req.params.id
         console.log(id)
         const data = await orderServices.deleteOrderById(id)
-        return successResponse(res,{message:'successfully deleted order',payload:data})
+        return res.status(200).json({message:'successfully deleted order',payload:data})
        
     } catch (error) {
       next(error)
@@ -48,9 +51,20 @@ exports.getAllOrder = async(req,res,next)=>{
     return errorResponse(res,{message:'cannot get all order!'})
    }
 
-   return successResponse(res,{message:'successfully get all order',payload:data})
+   return res.status(200).json({message:'successfully get all order',payload:data})
 
     } catch (error) {
        next(error)
+    }
+}
+
+//getOrderDetailsById
+exports.getOrderById = async(req,res,next)=>{
+    try {
+        console.log(req.params.id,'from controllers');
+        const order = await orderServices.getOrderById(req.params.id)
+        return res.status(200).json({message:'successfully get order details by id',payload:order})
+    } catch (error) {
+        next(error)
     }
 }

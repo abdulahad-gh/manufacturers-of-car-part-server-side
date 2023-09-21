@@ -10,7 +10,7 @@ exports.createBrandController = async (req, res, next) => {
       return errorResponse(res,{message:'cannot crate a brand!'})
 
     }
-    return successResponse(res,{message:'successfully create a brand',payload:data})
+    return res.status(200).json({message:'successfully create a brand',payload:data})
 
   } catch (error) {
    next(error)
@@ -26,7 +26,7 @@ exports.getBrandController = async (req, res, next) => {
  return errorResponse(res,{message:'cannot get all brand!'})
 
     }
-    return successResponse(res,{message:'successfully get all brand',payload:data})
+    return res.status(200).json({message:'successfully get all brand',payload:data})
 
   } catch (error) {
     next(error)
@@ -43,7 +43,7 @@ exports.updateBrandByIdController = async (req, res, next) => {
     if (!data) {
       return errorResponse(res,{message:'cannot find any brand, with this id, plase provide a valid brand id!'})
     }
-   return successResponse(res,{message:'successfully updated',payload:data})
+   return res.status(200).json({message:'successfully updated',payload:data})
   } catch (error) {
     next(error)
   }
@@ -59,7 +59,7 @@ exports.deleteBrandByIdController = async (req, res, next) => {
       return errorResponse(res,{message:'cannot delete any brand, with this id, plase provide a valid brand id!'})
 
     }
-    return successResponse(res,{message:'successfully deleted brand',payload:data})
+    return res.status(200).json({message:'successfully deleted brand',payload:data})
 
   } catch (error) {
    next(error)

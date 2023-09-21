@@ -33,7 +33,7 @@ module.exports.signupController = async (req, res,next) => {
       //   });
       // }
       const token = generateToken(userCreatedSuccessfully)
-      return successResponse(res,{message:'successfully created a store',payload:{userCreatedSuccessfully,token}})
+      return res.status(200).json({message:'successfully created a store',payload:{userCreatedSuccessfully,token}})
 
     // userCreatedSuccessfully.comparePassword('11','#dfd')
     // data.save({ validateBeforeSave: false });
@@ -81,7 +81,7 @@ module.exports.signinController = async (req, res,next) => {
     }
     const token = generateToken(user);
     
-    return successResponse(res,{message:'successfully created a store',payload:{token,user}})
+    return res.status(200).json({message:'successfully created a store',payload:{token,user}})
 
   } catch (error) {
   next(error)
@@ -92,7 +92,7 @@ module.exports.signinController = async (req, res,next) => {
 exports.getMe = async (req, res,next) => {
   try {
     const user = await userService.userFindByEmailService(req?.user?.email);
-    return successResponse(res,{message:'successfully created a store',payload:data})
+    return res.status(200).json({message:'successfully created a store',payload:data})
 
   } catch (error) {
   next(error)
@@ -110,7 +110,7 @@ module.exports.createUserController = async (req, res,next) => {
       return errorResponse(res,{statusCode:403,message:`already created account by this email- ${email}`})
     }
     const data = await userService.signupService(userDoc)
-    return successResponse(res,{message:'successfully created a user',payload:data})
+    return res.status(200).json({message:'successfully created a user',payload:data})
 
   } catch (error) {
     next(error)
@@ -133,7 +133,7 @@ module.exports.confirmationToken = async (req, res,next) => {
     user.confirmationToken = undefined;
     user.confirmationTokenExpired = undefined;
     user.save({ validateBeforeSave: false });
-    return successResponse(res,{message:'Yeeh! your account is now active.'})
+    return res.status(200).json({message:'Yeeh! your account is now active.'})
 
 
   } catch (error) {
@@ -150,7 +150,7 @@ module.exports.checkAdmin = async (req, res,next) => {
     if(isAdmin[0].role !== "admin"){
       return errorResponse(res,{statusCode:403,message:"you don't have permission to access this data"})
     }
-    return successResponse(res,{message:'you have right to access'})
+    return res.status(200).json({message:'you have right to access'})
 
   } catch (error) {
    next(error)
@@ -187,7 +187,7 @@ for(let key in req.body){
         error: "data cann't update!!"
       });
     }
-       return successResponse(res,{message:'successfully updated data.' })
+       return res.status(200).json({message:'successfully updated data.' })
   } catch (error) {
    next(error)
   }
@@ -201,7 +201,7 @@ module.exports.getAllUser = async (req, res,next) => {
     if(!data){
       return errorResponse(res,{message:"data can't get!!"})
     }
-    return successResponse(res,{message:'successfully get all user',payload:data})
+    return res.status(200).json({message:'successfully get all user',payload:data})
 
   } catch (error) {
  next(error)
@@ -218,7 +218,7 @@ module.exports.makeAdmin = async (req, res,next) => {
     if(!user){
       return errorResponse(res,{statusCode:403,message:`can't find user with this ${email} email. !!`})
     }
-    return successResponse(res,{message:'successfully get one part',payload:user})
+    return res.status(200).json({message:'successfully get one part',payload:user})
   } catch (error) {
   next(error)
   }
